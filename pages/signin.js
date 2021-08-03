@@ -1,12 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
-import Button from '@/components/ui/Button';
-import GitHub from '@/components/icons/GitHub';
-import Input from '@/components/ui/Input';
 import LoadingDots from '@/components/ui/LoadingDots';
-import Logo from '@/components/icons/Logo';
 import { useUser } from '@/utils/useUser';
 
 const SignIn = () => {
@@ -48,126 +43,104 @@ const SignIn = () => {
 
   useEffect(() => {
     if (user) {
-      router.replace('/account');
+      router.replace('/admin');
     }
   }, [user]);
 
   if (!user)
     return (
-      <div className="flex justify-center height-screen-helper">
-        <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
-          <div className="flex justify-center pb-12 ">
-            <Logo width="64px" height="64px" />
-          </div>
-          <div className="flex flex-col space-y-4">
-            {message.content && (
-              <div
-                className={`${
-                  message.type === 'error' ? 'text-pink' : 'text-green'
-                } border ${
-                  message.type === 'error' ? 'border-pink' : 'border-green'
-                } p-3`}
-              >
-                {message.content}
+      <div>
+        <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full space-y-8">
+            <div>
+              <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h1>
+            </div>
+            
+            <form onSubmit={handleSignin} className="mt-8 space-y-6">
+              <input type="hidden" name="remember" defaultValue="true" />
+              <div className="rounded-md shadow-sm -space-y-px">
+                <div>
+                  <label htmlFor="email-address" className="sr-only">
+                    Email address
+                  </label>
+                  <input
+                    id="email-address"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    className="appearance-none rounded-none relative block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none  focus:z-10 sm:text-sm"
+                    placeholder="Email address"
+                    onChange={e=>{setEmail(e.target.value)}}
+                  />
+                </div>
+                {showPasswordInput && (
+                  <div>
+                    <label htmlFor="password" className="sr-only">
+                      Password
+                    </label>
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
+                      required
+                      className="appearance-none rounded-none relative block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none  focus:z-10 sm:text-sm"
+                      placeholder="Password"
+                      onChange={e=>{setPassword(e.target.value)}}
+                    />
+                  </div>     
+                )}
               </div>
-            )}
 
-            {!showPasswordInput && (
-              <form onSubmit={handleSignin} className="flex flex-col space-y-4">
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={setEmail}
-                  required
-                />
-                <Button
-                  variant="slim"
-                  type="submit"
-                  loading={loading}
-                  disabled={!email.length}
+              <div className="text-center text-sm">
+                <a
+                  href="#"
+                  className="font-medium text-primary hover:underline"
+                  onClick={() => {
+                    if (showPasswordInput) setPassword('');
+                    setShowPasswordInput(!showPasswordInput);
+                    setMessage({});
+                  }}
                 >
-                  Send magic link
-                </Button>
-              </form>
-            )}
-
-            {showPasswordInput && (
-              <form onSubmit={handleSignin} className="flex flex-col space-y-4">
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={setEmail}
-                  required
-                />
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={setPassword}
-                  required
-                />
-                <Button
-                  className="mt-1"
-                  variant="slim"
-                  type="submit"
-                  loading={loading}
-                  disabled={!password.length || !email.length}
-                >
-                  Sign in
-                </Button>
-              </form>
-            )}
-
-            <span className="pt-1 text-center text-sm">
-              <a
-                href="#"
-                className="text-accents-7 text-accent-9 hover:underline cursor-pointer"
-                onClick={() => {
-                  if (showPasswordInput) setPassword('');
-                  setShowPasswordInput(!showPasswordInput);
-                  setMessage({});
-                }}
-              >
-                {`Or sign in with ${
-                  showPasswordInput ? 'magic link' : 'password'
-                }.`}
-              </a>
-            </span>
-
-            <span className="pt-1 text-center text-sm">
-              <span className="text-accents-7">Don't have an account?</span>
-              {` `}
-              <Link href="/signup">
-                <a className="text-accent-9 font-bold hover:underline cursor-pointer">
-                  Sign up.
+                  {`Or sign in with ${
+                    showPasswordInput ? 'magic link' : 'password'
+                  }.`}
                 </a>
-              </Link>
-            </span>
-          </div>
+              </div>  
 
-          <div className="flex items-center my-6">
-            <div
-              className="border-t border-accents-2 flex-grow mr-3"
-              aria-hidden="true"
-            ></div>
-            <div className="text-accents-4">Or</div>
-            <div
-              className="border-t border-accents-2 flex-grow ml-3"
-              aria-hidden="true"
-            ></div>
-          </div>
+              <div>
+                <button
+                  type="submit"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary  focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                >
+                  {showPasswordInput ? 'Sign in' : 'Send magic link'}
+                </button>
+              </div>
 
-          <Button
-            variant="slim"
-            type="submit"
-            disabled={loading}
-            onClick={() => handleOAuthSignIn('github')}
-          >
-            <GitHub />
-            <span className="ml-2">Continue with GitHub</span>
-          </Button>
+              <div className="mt-3 text-center text-sm">
+                <span className="text-accents-2">Don't have an account?</span>
+                {` `}
+                <Link href="/signup">
+                  <a className="text-accents-1 font-bold hover:underline cursor-pointer">
+                    Sign up.
+                  </a>
+                </Link>
+              </div>
+
+              {message.content && (
+                <div
+                  className={`${
+                    message.type === 'error' ? 'text-pink' : 'text-green'
+                  } border ${
+                    message.type === 'error' ? 'border-pink' : 'border-green'
+                  } p-3`}
+                >
+                  {message.content}
+                </div>
+              )}
+            </form>
+          </div>
         </div>
       </div>
     );

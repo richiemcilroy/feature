@@ -16,7 +16,7 @@ const createPortalLink = async (req, res) => {
 
       const { url } = await stripe.billingPortal.sessions.create({
         customer,
-        return_url: `${getURL()}/account`
+        return_url: `${getURL()}/admin`
       });
 
       return res.status(200).json({ url });

@@ -2,6 +2,9 @@ module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        'poppins': ['"Poppins"']
+      },
       maxWidth: {
         '8xl': '1920px'
       },
@@ -32,7 +35,6 @@ module.exports = {
         red: 'var(--red)'
       },
       textColor: {
-        base: 'var(--text-base)',
         primary: 'var(--text-primary)',
         secondary: 'var(--text-secondary)'
       },
@@ -48,5 +50,8 @@ module.exports = {
         widest: '0.3em'
       }
     }
-  }
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+  ]
 };

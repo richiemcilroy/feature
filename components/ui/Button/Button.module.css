@@ -22,6 +22,10 @@
   @apply py-2 transform-none normal-case;
 }
 
+.white {
+  @apply py-2 transform-none normal-case bg-white text-primary;
+}
+
 .disabled,
 .disabled:hover {
   @apply text-accents-4 border-accents-2 bg-accents-1 cursor-not-allowed;

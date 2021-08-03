@@ -1,12 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
-import Logo from '@/components/icons/Logo';
 import { updateUserName } from '@/utils/supabase-client';
 import { useUser } from '@/utils/useUser';
+import { LockClosedIcon } from '@heroicons/react/solid';
 
 const SignUp = () => {
   const [user, setUser] = useState(null);
@@ -42,17 +39,88 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user) {
-      router.replace('/account');
+      router.replace('/admin');
     }
   }, [user]);
 
   return (
-    <div className="flex justify-center height-screen-helper">
-      <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
-        <div className="flex justify-center pb-12 ">
-          <Logo width="64px" height="64px" />
+    <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign up for free</h1>
         </div>
-        <form onSubmit={handleSignup} className="flex flex-col space-y-4">
+        <form onSubmit={handleSignup} className="mt-8 space-y-6">
+          <input type="hidden" name="remember" defaultValue="true" />
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email-address" className="sr-only">
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                className="appearance-none rounded-none relative block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none  focus:z-10 sm:text-sm"
+                placeholder="Name"
+                onChange={e=>{setName(e.target.value)}}
+              />
+            </div>
+            <div>
+              <label htmlFor="email-address" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="email-address"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none rounded-none relative block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none  focus:z-10 sm:text-sm"
+                placeholder="Email address"
+                onChange={e=>{setEmail(e.target.value)}}
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="appearance-none rounded-none relative block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none  focus:z-10 sm:text-sm"
+                placeholder="Password"
+                onChange={e=>{setPassword(e.target.value)}}
+              />
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 "
+            >
+              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                <LockClosedIcon className="h-5 w-5 " aria-hidden="true" />
+              </span>
+              Sign up
+            </button>
+          </div>
+
+          <div className="mt-3 text-center text-sm">
+            <span className="text-accents-2">Already have an account?</span>
+            {` `}
+            <Link href="/signin">
+              <a className="text-accents-1 font-bold hover:underline cursor-pointer">
+                Sign in.
+              </a>
+            </Link>
+          </div>
+
           {message.content && (
             <div
               className={`${
@@ -64,38 +132,6 @@ const SignUp = () => {
               {message.content}
             </div>
           )}
-          <Input placeholder="Name" onChange={setName} />
-          <Input
-            type="email"
-            placeholder="Email"
-            onChange={setEmail}
-            required
-          />
-          <Input
-            type="password"
-            placeholder="Password"
-            onChange={setPassword}
-          />
-          <div className="pt-2 w-full flex flex-col">
-            <Button
-              variant="slim"
-              type="submit"
-              loading={loading}
-              disabled={loading || !email.length || !password.length}
-            >
-              Sign up
-            </Button>
-          </div>
-
-          <span className="pt-1 text-center text-sm">
-            <span className="text-accents-7">Do you have an account?</span>
-            {` `}
-            <Link href="/signin">
-              <a className="text-accent-9 font-bold hover:underline cursor-pointer">
-                Sign in.
-              </a>
-            </Link>
-          </span>
         </form>
       </div>
     </div>
