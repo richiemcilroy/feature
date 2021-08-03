@@ -43,7 +43,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (user) {
-      router.replace('/admin');
+      router.replace('/dashboard');
     }
   }, [user]);
 

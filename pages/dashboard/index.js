@@ -3,16 +3,18 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useUser } from '@/utils/useUser';
 
-export default function Admin() {
+export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { user } = useUser();
+  const { user, userFinderLoaded } = useUser();
 
   useEffect(() => {
-    if (!user) router.replace('/signin');
-  }, [user]);
+    if(userFinderLoaded){
+      if (!user) router.replace('/signin');
+    }
+  }, [userFinderLoaded, user]);
 
   return (
-    <p>Admin</p>
+    <p>Ok</p>
   );
 }

@@ -7,6 +7,7 @@ export const UserContextProvider = (props) => {
   const [userLoaded, setUserLoaded] = useState(false);
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
+  const [userFinderLoaded, setUserFinderLoaded] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [subscription, setSubscription] = useState(null);
 
@@ -20,6 +21,8 @@ export const UserContextProvider = (props) => {
         setUser(session?.user ?? null);
       }
     );
+
+    setUserFinderLoaded(true);
 
     return () => {
       authListener.unsubscribe();
@@ -41,6 +44,7 @@ export const UserContextProvider = (props) => {
           setUserDetails(results[0].value.data);
           setSubscription(results[1].value.data);
           setUserLoaded(true);
+          setUserFinderLoaded(true);
         }
       );
     }
@@ -52,6 +56,7 @@ export const UserContextProvider = (props) => {
     userDetails,
     userLoaded,
     subscription,
+    userFinderLoaded,
     signIn: (options) => supabase.auth.signIn(options),
     signUp: (options) => supabase.auth.signUp(options),
     signOut: () => {

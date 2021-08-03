@@ -39,7 +39,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user) {
-      router.replace('/admin');
+      router.replace('/dashboard');
     }
   }, [user]);
 

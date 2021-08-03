@@ -19,7 +19,7 @@ export default function Pricing({ products }) {
       return router.push('/signin');
     }
     if (subscription) {
-      return router.push('/admin');
+      return router.push('/dashboard');
     }
 
     try {

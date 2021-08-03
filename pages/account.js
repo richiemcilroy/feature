@@ -24,11 +24,13 @@ function Card({ title, description, footer, children }) {
 export default function Account() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { userLoaded, user, session, userDetails, subscription, signOut } = useUser();
+  const { userLoaded, user, userFinderLoaded, session, userDetails, subscription, signOut } = useUser();
 
   useEffect(() => {
-    if (!user) router.replace('/signin');
-  }, [user]);
+    if(userFinderLoaded){
+      if (!user) router.replace('/signin');
+    }
+  }, [userFinderLoaded, user]);
 
   const redirectToCustomerPortal = async () => {
     setLoading(true);
