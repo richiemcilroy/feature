@@ -136,7 +136,7 @@ export default function Layout({ children, meta: pageMeta }) {
                     <div className="flex-shrink-0 flex items-center px-4">
                       <Link href="/">
                         <a className="block m-auto">
-                          <Logo className="h-10 w-full"/>
+                          <Logo className="h-7 w-full"/>
                         </a>
                       </Link>
                     </div>
@@ -188,7 +188,7 @@ export default function Layout({ children, meta: pageMeta }) {
                   <div className="flex items-center flex-shrink-0 px-4">
                     <Link href="/">
                         <a className="block m-auto">
-                          <Logo className="h-10 w-full" white/>
+                          <Logo className="h-7 w-full" white/>
                         </a>
                       </Link>
                   </div>
@@ -241,7 +241,7 @@ export default function Layout({ children, meta: pageMeta }) {
                   <div className="flex-shrink-0 flex lg:hidden items-center px-4">
                     <Link href="/">
                       <a className="block m-auto">
-                        <Logo className="h-10 w-full"/>
+                        <Logo className="h-7 w-full"/>
                       </a>
                     </Link>
                   </div>
