@@ -1,4 +1,4 @@
-var projectso = function() {
+var projectso = async function() {
   "use strict";
 
   const rootAPIDomain = 'https://feature.so/api/';
