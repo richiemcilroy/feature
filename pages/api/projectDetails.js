@@ -28,15 +28,15 @@ const projectDetails = async (req, res) => {
 
   const headers = req.headers;
 
+  console.log(headers);
+
   try {
     const projectVerify = await verifyProject(headers.host);
-    console.log(headers?.host);
     console.log(projectVerify);
     return res.status(200).json({ verified: true });
 
   } catch (error) {
     console.log(error);
-    console.log(headers.host);
     return res.status(500).json({ error: { statusCode: 500, verified: false } });
 
   }
