@@ -7,15 +7,11 @@ var projectso = async function() {
     console.log(rootAPIDomain+'projectDetails');
 
     fetch(rootAPIDomain+'projectDetails')
-    .then(response => {
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-    })
-    .catch(e => {
-      console.log('There has been a problem fetching your project from Feature.so - ' + e.message);
-    });
+      .then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        console.log(data);
+      });
   }
 
   await getData();
