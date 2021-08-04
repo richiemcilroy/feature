@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-
 import LoadingDots from '@/components/ui/LoadingDots';
 import Button from '@/components/ui/Button';
 import { useUser } from '@/utils/useUser';

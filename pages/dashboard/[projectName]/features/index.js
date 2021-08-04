@@ -3,35 +3,34 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useUser } from '@/utils/useUser';
 import {
-  AcademicCapIcon,
-  BadgeCheckIcon,
-  CashIcon,
+  CalendarIcon,
   ClockIcon,
-  ReceiptRefundIcon,
-  UsersIcon,
+  PhotographIcon,
+  TableIcon,
+  ViewBoardsIcon,
+  ViewListIcon,
 } from '@heroicons/react/outline';
+import { getURL } from '@/utils/helpers';
 
 export default function Features() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { user, userFinderLoaded } = useUser();
   
-  const actions = [
+  const items = [
     {
-      title: 'Content Section',
-      href: '/dashboard/features/content-section',
-      icon: AcademicCapIcon,
-      iconForeground: 'text-yellow-700',
-      iconBackground: 'bg-yellow-50',
-      text: 'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
+      title: 'Create a content section',
+      description: 'Add a custom content section to your website',
+      icon: ViewListIcon,
+      background: 'bg-primary-2',
+      link: ''+router?.asPath+'/content-section'
     },
     {
-      title: 'Benefits',
-      href: '#',
-      icon: BadgeCheckIcon,
-      iconForeground: 'text-purple-700',
-      iconBackground: 'bg-purple-50',
-      text: 'Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.'
+      title: 'Create a contact form',
+      description: 'Start receiving enquiries in minutes with our plug and play contact form',
+      icon: CalendarIcon,
+      background: 'bg-primary-2',
+      link: ''+router?.asPath+'/contact-form'
     }
   ];
 
@@ -50,51 +49,36 @@ export default function Features() {
       <h1 className="text-3xl font-extrabold text-primary mb-4 sm:tracking-tight">
         Features
       </h1>
-      <div className="rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
-        {actions.map((action, actionIdx) => (
-          <div
-            key={action.title}
-            className={classNames(
-              actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
-              actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
-              actionIdx === actions.length - 2 ? 'sm:rounded-bl-lg' : '',
-              actionIdx === actions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '',
-              'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
-            )}
-          >
-            <div>
-              <span
-                className={classNames(
-                  action.iconBackground,
-                  action.iconForeground,
-                  'rounded-lg inline-flex p-3 ring-4 ring-white'
-                )}
-              >
-                <action.icon className="h-6 w-6" aria-hidden="true" />
-              </span>
-            </div>
-            <div className="mt-8">
-              <h3 className="text-lg font-medium">
-                <a href={action.href} className="focus:outline-none">
-                  {/* Extend touch target to entire panel */}
-                  <span className="absolute inset-0" aria-hidden="true" />
-                  {action.title}
-                </a>
-              </h3>
-              <p className="mt-2 text-sm text-gray-500">
-                {action.text}
-              </p>
-            </div>
-            <span
-              className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
-              aria-hidden="true"
-            >
-              <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-              </svg>
-            </span>
-          </div>
-        ))}
+      <div>
+        <p className="mt-1 text-sm text-gray-500">
+          You haven’t added any features to your website yet. Get started by selecting from one of the templates below.
+        </p>
+        <ul role="list" className="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {items.map((item, itemIdx) => (
+            <li key={itemIdx} className="flow-root">
+              <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+                <div
+                  className={classNames(
+                    item.background,
+                    'flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg'
+                  )}
+                >
+                  <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-900">
+                    <a href={item?.link} className="focus:outline-none">
+                      <span className="absolute inset-0" aria-hidden="true" />
+                      {item.title}
+                      <span aria-hidden="true"> &rarr;</span>
+                    </a>
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

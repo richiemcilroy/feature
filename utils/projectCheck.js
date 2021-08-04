@@ -17,7 +17,7 @@ export default function projectCheck(type) {
   }, [userFinderLoaded, user, userProjects]);
 
   if(userProjectDetails !== null && userProjectDetails?.length === 0){
-    router.replace('/dashboard/create-project');
+    router.replace('/create-project');
   }
 
   if(type === 'root'){    

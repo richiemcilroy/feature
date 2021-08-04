@@ -70,6 +70,7 @@ create table projects (
   project_id text default generate_uid(20),
   project_name text,
   project_domain text,
+  project_verified boolean,
   project_data jsonb,
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -78,6 +79,26 @@ create policy "Can view own user data." on projects for select using (auth.uid()
 create policy "Can update own user data." on projects for update using (auth.uid() = id);
 create policy "Can insert own user data." on projects for insert with check (auth.uid() = id);
 create policy "Can delete own user data." on projects for delete using (auth.uid() = id);
+
+/**
+* FEATURES
+* Note: this is a private table that contains a mapping of user IDs and user features.
+*/
+create table features (
+  -- UUID from auth.users
+  id uuid references auth.users not null,
+  feature_type text,
+  feature_id text default generate_uid(20),
+  project_id text,
+  feature_data jsonb,
+  feature_status boolean,
+  created timestamp with time zone default timezone('utc'::text, now()) not null
+);
+alter table features enable row level security;
+create policy "Can view own user data." on features for select using (auth.uid() = id);
+create policy "Can update own user data." on features for update using (auth.uid() = id);
+create policy "Can insert own user data." on features for insert with check (auth.uid() = id);
+create policy "Can delete own user data." on features for delete using (auth.uid() = id);
 
 /** 
 * PRODUCTS

@@ -14,7 +14,7 @@ export default function Pricing({ products }) {
   const { session, userLoaded, subscription } = useUser();
 
   const handleCheckout = async (price) => {
-    setPriceIdLoading(price.id);
+    setPriceIdLoading(price?.id);
     if (!session) {
       return router.push('/signin');
     }
@@ -70,58 +70,34 @@ export default function Pricing({ products }) {
             Start building for free, then add a site plan to go live. Account
             plans unlock additional features.
           </p>
-          <div className="relative self-center mt-6 bg-primary-2 rounded-lg p-0.5 flex sm:mt-8 border border-accents-0">
-            <button
-              onClick={() => setBillingInterval('month')}
-              type="button"
-              className={`${
-                billingInterval === 'month'
-                  ? 'relative w-1/2 bg-accents-1 border-accents-0 shadow-sm text-white'
-                  : 'ml-0.5 relative w-1/2 border border-transparent text-accents-4'
-              } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-pink focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
-            >
-              Monthly billing
-            </button>
-            <button
-              onClick={() => setBillingInterval('year')}
-              type="button"
-              className={`${
-                billingInterval === 'year'
-                  ? 'relative w-1/2 bg-accents-1 border-accents-0 shadow-sm text-white'
-                  : 'ml-0.5 relative w-1/2 border border-transparent text-accents-4'
-              } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-pink focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
-            >
-              Yearly billing
-            </button>
-          </div>
         </div>
         <div className="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-4">
           {products.map((product) => {
-            const price = product.prices.find(
-              (price) => price.interval === billingInterval
+            const price = product?.prices.find(
+              (price) => price?.interval === billingInterval
             );
             const priceString = new Intl.NumberFormat('en-US', {
               style: 'currency',
-              currency: price.currency,
+              currency: 'USD',
               minimumFractionDigits: 0
-            }).format(price.unit_amount / 100);
+            }).format(price?.unit_amount / 100);
             return (
               <div
-                key={product.id}
+                key={product?.id}
                 className={cn(
                   'rounded-lg shadow-sm divide-y divide-accents-2 bg-primary-2',
                   {
                     'border border-pink': subscription
-                      ? product.name === subscription?.prices?.products.name
-                      : product.name === 'Freelancer'
+                      ? product?.name === subscription?.prices?.products.name
+                      : product?.name === 'Freelancer'
                   }
                 )}
               >
                 <div className="p-6">
                   <h2 className="text-2xl leading-6 font-semibold text-white">
-                    {product.name}
+                    {product?.name}
                   </h2>
-                  <p className="mt-4 text-accents-5">{product.description}</p>
+                  <p className="mt-4 text-accents-5">{product?.description}</p>
                   <p className="mt-8">
                     <span className="text-5xl font-extrabold white">
                       {priceString}
@@ -134,11 +110,11 @@ export default function Pricing({ products }) {
                     variant="slim"
                     type="button"
                     disabled={session && !userLoaded}
-                    loading={priceIdLoading === price.id}
-                    onClick={() => handleCheckout(price.id)}
+                    loading={priceIdLoading === price?.id}
+                    onClick={() => handleCheckout(price?.id)}
                     className="mt-8 block w-full rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-gray-900"
                   >
-                    {product.name === subscription?.prices?.products.name
+                    {product?.name === subscription?.prices?.products.name
                       ? 'Manage'
                       : 'Subscribe'}
                   </Button>

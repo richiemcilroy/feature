@@ -10,6 +10,7 @@ export const UserContextProvider = (props) => {
   const [userFinderLoaded, setUserFinderLoaded] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [userProjects, setUserProjects] = useState(null);
+  const [userFeatures, setUserFeatures] = useState(null);
   const [subscription, setSubscription] = useState(null);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export const UserContextProvider = (props) => {
 
   const getUserDetails = () => supabase.from('users').select('*').single();
   const getUserProjects = () => supabase.from('projects').select('*');
+  const getUserFeatures = () => supabase.from('features').select('*');
   const getSubscription = () =>
     supabase
       .from('subscriptions')
@@ -41,11 +43,12 @@ export const UserContextProvider = (props) => {
 
   useEffect(() => {
     if (user) {
-      Promise.allSettled([getUserDetails(), getSubscription(), getUserProjects()]).then(
+      Promise.allSettled([getUserDetails(), getSubscription(), getUserProjects(), getUserFeatures()]).then(
         (results) => {
           setUserDetails(results[0].value.data);
           setSubscription(results[1].value.data);
           setUserProjects(results[2].value.data);
+          setUserFeatures(results[3].value.data);
           setUserLoaded(true);
           setUserFinderLoaded(true);
         }
@@ -58,6 +61,7 @@ export const UserContextProvider = (props) => {
     user,
     userDetails,
     userProjects,
+    userFeatures,
     userLoaded,
     subscription,
     userFinderLoaded,
@@ -80,13 +84,83 @@ export const useUser = () => {
   return context;
 };
 
-//Create new project
+//Projects
 export const newProject = async (user, data) => {
   const { error } = await supabase.from('projects').insert({
     id: user?.id,
     project_name: data?.project_name,
     project_domain: data?.project_domain,
+    project_verified: false,
     project_data: []
+  });
+  if (error) {
+    throw error;
+  } else {
+    return "Success";
+  }
+};
+
+export const editProject = async (data) => {
+  const { error } = await supabase
+    .from('projects')
+    .update({
+      project_name: data?.project_name,
+    }).eq('project_id', data?.project_id);
+
+    if (error) {
+      throw error;
+    } else {
+      return "Success";
+    }
+};
+
+export const deleteProject = async (id) => {
+  const { error } = await supabase
+    .from('projects')
+    .delete()
+    .match({ project_id: id })
+
+    if (error) {
+      throw error;
+    } else {
+      return "Success";
+    }
+};
+
+export const projectMetaUpdate = async (projectID, formData) => {
+  const { error } = await supabase
+    .from('projects')
+    .update({
+      project_data: formData
+    }).eq('project_id', projectID);
+
+    if (error) {
+      throw error;
+    } else {
+      return "Success";
+    }
+};
+
+export const verifyProject = async (id) => {
+  const { data, error } = await supabase
+    .from('projects')
+    .select('id', 'project_verified')
+    .eq('project_id', id);
+
+  if (error) {
+    throw error;
+    return "Error"
+  }
+
+  return data;
+};
+
+//Features
+export const newFeature = async (user, data) => {
+  const { error } = await supabase.from('projects').insert({
+    id: user?.id,
+    feature_type: data?.feature_type,
+    project_id: data?.project_id
   });
   if (error) {
     throw error;

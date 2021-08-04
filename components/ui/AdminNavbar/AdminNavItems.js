@@ -9,7 +9,8 @@ import {
   QuestionMarkCircleIcon,
   ScaleIcon,
   ShieldCheckIcon,
-  LogoutIcon
+  LogoutIcon,
+  UserIcon,
 } from '@heroicons/react/outline';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
@@ -40,14 +41,14 @@ export default function AdminNavItems() {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard/'+selectedProject?.project_domain+'', icon: HomeIcon },
     { name: 'Features', href: '/dashboard/'+selectedProject?.project_domain+'/features', icon: ShieldCheckIcon },
-    { name: 'Projects', href: '#', icon: ScaleIcon },
     { name: 'Analytics', href: '#', icon: DocumentReportIcon },
-    { name: 'Settings', href: '/account', icon: CogIcon },
+    { name: 'Settings', href: '/dashboard/'+selectedProject?.project_domain+'/settings', icon: CogIcon },
   ];
   const secondaryNavigation = [
-    { name: 'Settings', href: '/account', icon: CogIcon },
+    { name: 'Account', href: '/account', icon: UserIcon },
     { name: 'Help', href: '#', icon: QuestionMarkCircleIcon }
   ];
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
