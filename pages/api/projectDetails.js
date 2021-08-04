@@ -27,7 +27,7 @@ const projectDetails = async (req, res) => {
   await runMiddleware(req, res, cors);
 
   const headers = req.headers;
-  const filteredReferer = headers.referer.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "");
+  const filteredReferer = headers.referer.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").replace(/\//g, "").replace(/\\/g, "-");
 
   console.log(filteredReferer);
 
