@@ -153,7 +153,7 @@ const manageSubscriptionStatusChange = async (
 const getProject = async (projectDomain) => {
     const { data, error } = await supabaseAdmin
       .from('projects')
-      .select('project_id', 'project_verified')
+      .select('project_id, project_verified')
       .eq('project_domain', projectDomain)
       .single();
 
