@@ -1,4 +1,4 @@
-import { verifyProject } from '@/utils/useDatabase';
+import { getProject } from '@/utils/useDatabase';
 import Cors from 'cors';
 import { getURL } from '@/utils/helpers';
 
@@ -29,10 +29,8 @@ const projectDetails = async (req, res) => {
   const headers = req.headers;
   const filteredReferer = headers.referer.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").replace(/\//g, "").replace(/\\/g, "-");
 
-  console.log(filteredReferer);
-
   try {
-    const projectVerify = await verifyProject(filteredReferer);
+    const projectVerify = await getProject(filteredReferer);
     console.log(projectVerify);
     return res.status(200).json({ verified: true });
 

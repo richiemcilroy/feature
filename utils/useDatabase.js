@@ -150,14 +150,33 @@ const manageSubscriptionStatusChange = async (
     );
 };
 
-const verifyProject = async (projectDomain) => {
-  const { error } = await supabaseAdmin
-    .from('projects')
-    .update({
-      project_verified: true,
-    })
-    .eq('project_domain', projectDomain);
-  if (error) throw error;
+const getProject = async (projectDomain) => {
+    const { data, error } = await supabaseAdmin
+      .from('projects')
+      .select('project_id', 'project_verified')
+      .eq('project_domain', projectDomain)
+      .single();
+
+      console.log("project data");
+      console.log(data);
+
+      if (error) return "error";
+
+    if(data?.project_verified === false){
+
+      console.log("project verified false");
+
+      const { error } = await supabaseAdmin
+      .from('projects')
+      .update({
+        project_verified: true,
+      })
+      .eq('project_domain', projectDomain);
+
+      if (error) return "error";
+    }
+
+    return data;
 };
 
 export {
@@ -165,5 +184,5 @@ export {
   upsertPriceRecord,
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
-  verifyProject
+  getProject
 };
