@@ -141,20 +141,6 @@ export const projectMetaUpdate = async (projectID, formData) => {
     }
 };
 
-export const verifyProject = async (id) => {
-  const { data, error } = await supabase
-    .from('projects')
-    .select('id', 'project_verified')
-    .eq('project_id', id);
-
-  if (error) {
-    throw error;
-    return "Error"
-  }
-
-  return data;
-};
-
 //Features
 export const newFeature = async (user, data) => {
   const { error } = await supabase.from('projects').insert({

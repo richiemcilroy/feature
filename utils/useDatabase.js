@@ -150,9 +150,20 @@ const manageSubscriptionStatusChange = async (
     );
 };
 
+const verifyProject = async (projectDomain) => {
+  const { error } = await supabaseAdmin
+    .from('projects')
+    .update({
+      project_verified: true,
+    })
+    .eq('project_domain', projectDomain);
+  if (error) throw error;
+};
+
 export {
   upsertProductRecord,
   upsertPriceRecord,
   createOrRetrieveCustomer,
-  manageSubscriptionStatusChange
+  manageSubscriptionStatusChange,
+  verifyProject
 };
