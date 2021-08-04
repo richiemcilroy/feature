@@ -27,11 +27,12 @@ const projectDetails = async (req, res) => {
   await runMiddleware(req, res, cors);
 
   const headers = req.headers;
+  const filteredReferer = headers.referer.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('.')[0];
 
-  console.log(headers);
+  console.log(filteredReferer);
 
   try {
-    const projectVerify = await verifyProject(headers.host);
+    const projectVerify = await verifyProject(filteredReferer);
     console.log(projectVerify);
     return res.status(200).json({ verified: true });
 
