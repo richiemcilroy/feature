@@ -4,11 +4,15 @@ var projectso = async function() {
   const rootAPIDomain = 'https://feature.so/api/';
 
   async function getData(){
+    console.log(rootAPIDomain+'projectDetails');
+
     fetch(rootAPIDomain+'projectDetails')
     .then(response => {
       if (!response.ok) {
         console.log(`Feature.so HTTP error! status: ${response.status}`)
       }
+
+      console.log(response);
     })
     .then(data => {
       console.log(data);
