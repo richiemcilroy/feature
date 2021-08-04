@@ -9,6 +9,8 @@ const projectDetails = async (req, res) => {
       const projectVerify = await verifyProject(
         headers?.host
       );
+      console.log(headers?.host);
+      console.log(projectVerify);
       return res.status(200).json({ verified: true });
 
     } catch (error) {
