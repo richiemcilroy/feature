@@ -29,6 +29,8 @@ const projectDetails = async (req, res) => {
   const headers = req.headers;
   const filteredReferer = headers.referer.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").replace(/\//g, "").replace(/\\/g, "-");
 
+  console.log(filteredReferer);
+
   try {
     const projectVerify = await getProject(filteredReferer);
     console.log(projectVerify);

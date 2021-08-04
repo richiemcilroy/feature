@@ -162,7 +162,7 @@ const getProject = async (projectDomain) => {
 
       if (error) return "error";
 
-    if(data?.project_verified === false){
+    if(data.project_verified === false){
 
       console.log("project verified false");
 

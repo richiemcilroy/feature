@@ -12,12 +12,8 @@ var projectso = async function() {
         console.log(`Feature.so HTTP error! status: ${response.status}`)
       }
 
-      console.log(response);
-    })
-    .then(data => {
-      console.log(data);
-    })
-    .catch(e => {
+      console.log(response.body);
+    }).catch(e => {
       console.log('There has been a problem fetching your project from Feature.so - ' + e.message);
     });
   }
