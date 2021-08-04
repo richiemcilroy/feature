@@ -9,6 +9,7 @@ export const UserContextProvider = (props) => {
   const [user, setUser] = useState(null);
   const [userFinderLoaded, setUserFinderLoaded] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
+  const [userProjects, setUserProjects] = useState(null);
   const [subscription, setSubscription] = useState(null);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export const UserContextProvider = (props) => {
   }, []);
 
   const getUserDetails = () => supabase.from('users').select('*').single();
+  const getUserProjects = () => supabase.from('projects').select('*');
   const getSubscription = () =>
     supabase
       .from('subscriptions')
@@ -39,10 +41,11 @@ export const UserContextProvider = (props) => {
 
   useEffect(() => {
     if (user) {
-      Promise.allSettled([getUserDetails(), getSubscription()]).then(
+      Promise.allSettled([getUserDetails(), getSubscription(), getUserProjects()]).then(
         (results) => {
           setUserDetails(results[0].value.data);
           setSubscription(results[1].value.data);
+          setUserProjects(results[2].value.data);
           setUserLoaded(true);
           setUserFinderLoaded(true);
         }
@@ -54,6 +57,7 @@ export const UserContextProvider = (props) => {
     session,
     user,
     userDetails,
+    userProjects,
     userLoaded,
     subscription,
     userFinderLoaded,
@@ -74,4 +78,19 @@ export const useUser = () => {
     throw new Error(`useUser must be used within a UserContextProvider.`);
   }
   return context;
+};
+
+//Create new project
+export const newProject = async (user, data) => {
+  const { error } = await supabase.from('projects').insert({
+    id: user?.id,
+    project_name: data?.project_name,
+    project_domain: data?.project_domain,
+    project_data: []
+  });
+  if (error) {
+    throw error;
+  } else {
+    return "Success";
+  }
 };

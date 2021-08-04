@@ -24,7 +24,7 @@ function Card({ title, description, footer, children }) {
 export default function Account() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { userLoaded, user, userFinderLoaded, session, userDetails, subscription, signOut } = useUser();
+  const { userLoaded, user, userFinderLoaded, session, userDetails, subscription } = useUser();
 
   useEffect(() => {
     if(userFinderLoaded){
@@ -53,10 +53,10 @@ export default function Account() {
     }).format(subscription.prices.unit_amount / 100);
 
   return (
-    <section className="mb-32">
-      <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
+    <section className="bg-gray-100 pb-12">
+      <div className="max-w-6xl mx-auto pt-8 sm:pt-24 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold sm:text-center sm:text-6xl">
+          <h1 className="text-4xl font-extrabold text-center sm:text-6xl">
             Account
           </h1>
         </div>
@@ -116,13 +116,6 @@ export default function Account() {
             {user ? user.email : undefined}
           </p>
         </Card>
-        <div className="text-center">
-          <Link href="#">
-            <a className="relative inline-flex items-center px-5 py-3 border border-transparent text-md font-medium rounded-md text-white bg-primary shadow-s focus:outline-none focus:ring-2 focus:ring-offset-2 " onClick={() => signOut()}>
-              Sign out
-            </a>
-          </Link>
-        </div>
       </div>
     </section>
   );

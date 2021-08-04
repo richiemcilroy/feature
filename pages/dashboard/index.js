@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useUser } from '@/utils/useUser';
+import LoadingDots from '@/components/ui/LoadingDots';
+import projectCheck from '@/utils/projectCheck';
 
-export default function Dashboard() {
-  const [loading, setLoading] = useState(false);
+export default function RootDashboard() {
   const router = useRouter();
   const { user, userFinderLoaded } = useUser();
+  projectCheck('root');
 
   useEffect(() => {
     if(userFinderLoaded){
@@ -15,6 +17,8 @@ export default function Dashboard() {
   }, [userFinderLoaded, user]);
 
   return (
-    <p>Ok</p>
+    <div className="pt-12 flex justify-center">
+      <LoadingDots/>
+    </div>
   );
 }

@@ -1,3 +1,19 @@
+CREATE OR REPLACE FUNCTION generate_uid(size INT) RETURNS TEXT AS $$
+DECLARE
+  characters TEXT := 'abcdefghijklmnopqrstuvwxyz0123456789';
+  bytes BYTEA := gen_random_bytes(size);
+  l INT := length(characters);
+  i INT := 0;
+  output TEXT := '';
+BEGIN
+  WHILE i < size LOOP
+    output := output || substr(characters, get_byte(bytes, i) % l + 1, 1);
+    i := i + 1;
+  END LOOP;
+  RETURN output;
+END;
+$$ LANGUAGE plpgsql VOLATILE;
+
 /** 
 * USERS
 * Note: This table contains user data. Users should only be able to view and update their own data.
@@ -43,6 +59,25 @@ create table customers (
 );
 alter table customers enable row level security;
 -- No policies as this is a private table that the user must not have access to.
+
+/**
+* PROJECTS
+* Note: this is a private table that contains a mapping of user IDs and user projects.
+*/
+create table projects (
+  -- UUID from auth.users
+  id uuid references auth.users not null,
+  project_id text default generate_uid(20),
+  project_name text,
+  project_domain text,
+  project_data jsonb,
+  created timestamp with time zone default timezone('utc'::text, now()) not null
+);
+alter table projects enable row level security;
+create policy "Can view own user data." on projects for select using (auth.uid() = id);
+create policy "Can update own user data." on projects for update using (auth.uid() = id);
+create policy "Can insert own user data." on projects for insert with check (auth.uid() = id);
+create policy "Can delete own user data." on projects for delete using (auth.uid() = id);
 
 /** 
 * PRODUCTS

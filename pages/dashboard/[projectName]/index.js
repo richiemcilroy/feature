@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useUser } from '@/utils/useUser';
+import projectCheck from '@/utils/projectCheck';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { user, userFinderLoaded } = useUser();
+  projectCheck();
 
   useEffect(() => {
     if(userFinderLoaded){
@@ -20,15 +22,18 @@ export default function Dashboard() {
     { name: 'Clicks', stat: '0' },
   ];
 
+  console.log(router?.query?.projectName);
+
   return (
     <div>
-      <h1 className="text-3xl font-extrabold text-primary mb-4 sm:tracking-tight">
-        Dashboard Inside
+      <h1 className="text-3xl font-extrabold text-primary mb-1 sm:tracking-tight">
+        Dashboard
       </h1>
+      <a href={'https://'+router?.query?.projectName} target="_blank" className="mb-4 block text-md text-gray-500 hover:underline">{router?.query?.projectName}</a>
       <div className="mb-8 text-white bg-primary-2 rounded-lg shadow-lg animate-enter">
         <div className="px-4 py-7">
-          <h2 className="mb-2 text-lg">Waiting for data <span className="h-2 w-2 bg-white inline-block rounded-full m-0.5 mx-2 animate-pulse" />
-          </h2>
+          <h3 className="mb-2 text-lg">Waiting for data <span className="h-2 w-2 bg-white inline-block rounded-full m-0.5 mx-2 animate-pulse" />
+          </h3>
           <p className="text-gray-300">Add the following script to your <b>head</b> tag. Then, visit your website. </p>
         </div>
         <div className="px-4 py-4 rounded-b-lg font-mono text-sm text-gray-200 bg-gray-900">&lt;script async src="https://feature.so/go.js"&gt;&lt;/script&gt;</div>

@@ -4,6 +4,7 @@ import Navbar from '@/components/ui/Navbar';
 import Footer from '@/components/ui/Footer';
 import AdminMobileNav from '@/components/ui/AdminNavbar/AdminMobileNav';
 import AdminDesktopNav from '@/components/ui/AdminNavbar/AdminDesktopNav';
+import SimpleNav from '@/components/ui/SimpleNav';
 
 export default function Layout({ children, meta: pageMeta }) {
   const router = useRouter();
@@ -41,11 +42,17 @@ export default function Layout({ children, meta: pageMeta }) {
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet"/>
       </Head>
       {
-        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' &&
+        router.pathname === '/account' &&
+          <SimpleNav />
+        || router.pathname === '/create-project' &&
+          <SimpleNav />
+      }
+      {
+        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' && router.pathname !== '/create-project' &&
         <Navbar />
       }
       {
-        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' ?
+        router.pathname.indexOf('/dashboard') === -1 ?
           <main id="skip">{children}</main>
         :
           <div className="h-screen flex overflow-hidden bg-gray-100">
@@ -61,7 +68,7 @@ export default function Layout({ children, meta: pageMeta }) {
           </div>
       }
       {
-        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' &&
+        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' && router.pathname !== '/create-project' &&
         <Footer />
       }
     </>
