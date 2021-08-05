@@ -2,12 +2,12 @@ const SideModal = (props) => {
   return(
     <div className="fixed inset-0 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
       <div className="absolute inset-0 overflow-hidden">
-        <div onClick={e=>{props.setProjectToggle(false)}} className="absolute inset-0 bg-gray-800 bg-opacity-95 transition-opacity" aria-hidden="true" />
+        <div onClick={e=>{props.setFeatureToggle(false)}} className="absolute inset-0 bg-gray-800 bg-opacity-95 transition-opacity" aria-hidden="true" />
         <div className="fixed inset-y-0 right-0 pl-10 max-w-full flex">
           <div className="relative w-screen max-w-md">
             <div className="absolute top-0 left-0 -ml-8 pt-4 pr-2 flex sm:-ml-10 sm:pr-4">
               <button 
-                onClick={e=>{props.setProjectToggle(false)}}
+                onClick={e=>{props.setFeatureToggle(false)}}
                 className="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
               >
                 <span className="sr-only">Close panel</span>

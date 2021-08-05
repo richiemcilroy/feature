@@ -15,6 +15,7 @@ export const UserContextProvider = (props) => {
 
   useEffect(() => {
     const session = supabase.auth.session();
+    console.log(session);
     setSession(session);
     setUser(session?.user ?? null);
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -143,14 +144,29 @@ export const projectMetaUpdate = async (projectID, formData) => {
 
 //Features
 export const newFeature = async (user, data) => {
-  const { error } = await supabase.from('projects').insert({
+  const { error } = await supabase.from('features').insert({
     id: user?.id,
     feature_type: data?.feature_type,
-    project_id: data?.project_id
+    feature_label: data?.feature_label,
+    project_domain: data?.project_domain,
+    feature_status: false
   });
   if (error) {
     throw error;
   } else {
     return "Success";
   }
+};
+
+export const deleteFeature = async (id) => {
+  const { error } = await supabase
+    .from('features')
+    .delete()
+    .match({ feature_id: id })
+
+    if (error) {
+      throw error;
+    } else {
+      return "Success";
+    }
 };

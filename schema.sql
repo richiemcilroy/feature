@@ -89,8 +89,9 @@ create table features (
   id uuid references auth.users not null,
   feature_type text,
   feature_id text default generate_uid(20),
-  project_id text,
+  project_domain text,
   feature_data jsonb,
+  feature_label text,
   feature_status boolean,
   created timestamp with time zone default timezone('utc'::text, now()) not null
 );

@@ -4,7 +4,7 @@ import { getURL } from '@/utils/helpers';
 
 // Initializing the cors middleware
 const cors = Cors({
-  methods: ['GET', 'HEAD'],
+  methods: ['GET', 'HEAD', 'POST']
 });
 
 // Helper method to wait for a middleware to execute before continuing
@@ -21,36 +21,19 @@ function runMiddleware(req, res, fn) {
   })
 }
 
-const projectDetails = async (req, res) => {
+const confirmSession = async (req, res) => {
 
   // Run the middleware
   await runMiddleware(req, res, cors);
 
   const headers = req.headers;
   const body = req.body;
-  let filteredReferer = null;
-
-  if(headers.referer) {
-    filteredReferer = headers.referer.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").replace(/\//g, "").replace(/\\/g, "-");
-  } else {
-    return res.status(500).json({ statusCode: 500, referer: false });
-  }
 
   try {
-    if(filteredReferer !== null){
+    
+    console.log(body);
 
-      const projectVerify = await getProject(filteredReferer);
-      
-      if(projectVerify === "error"){
-        return res.status(500).json({ statusCode: 500, verified: false });
-      } else {
-        return res.status(200).json({ verified: true });
-      }
-
-    } else {
-
-      return res.status(500).json({ statusCode: 500, verified: false });
-    }
+    return res.status(500).json({ statusCode: 500, authConfirmed: true });
 
   } catch (error) {
     console.log(error);
@@ -59,4 +42,4 @@ const projectDetails = async (req, res) => {
   }
 };
 
-export default projectDetails;
+export default confirmSession;

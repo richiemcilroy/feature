@@ -27,6 +27,11 @@ export const UTCtoString = (date) => {
   return new Date(date).toISOString().split('T')[0];
 };
 
+export const capitalizeString = (str) => {
+  var firstLetter = str.substr(0, 1);
+  return firstLetter.toUpperCase() + str.substr(1);
+};
+
 export const toDateTime = (secs) => {
   var t = new Date('1970-01-01T00:30:00Z'); // Unix epoch start.
   t.setSeconds(secs);
