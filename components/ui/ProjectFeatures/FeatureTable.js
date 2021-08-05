@@ -6,6 +6,7 @@ import { UTCtoString } from '@/utils/helpers';
 import { capitalizeString } from '@/utils/helpers';
 import { useUser, newFeature, deleteFeature } from '@/utils/useUser';
 import Bin from '@/components/icons/Bin';
+import FeatureForm from '@/components/ui/ProjectFeatures/FeatureForm';
 import {
   CalendarIcon,
   ClockIcon,
@@ -126,7 +127,7 @@ export default function FeatureTable({type}) {
   };
 
   const handleLocationSet = (e) => {
-    window.open('https://'+router?.query?.projectName+'?featureEditor=1&accessToken='+session?.access_token+'','_blank');
+    window.open('https://'+router?.query?.projectName+'?featureEditor=1&featureId='+e+'&accessToken='+session?.access_token+'','_blank');
   };
 
   return (
@@ -319,50 +320,7 @@ export default function FeatureTable({type}) {
           setFeatureToggle={setFeatureToggle}
           title={'Add a new '+newFeatureDetails[0]+' feature to your website'}
         >
-          <form action="#" method="POST" onSubmit={handleSubmit}>
-            <input
-                required
-                type="hidden"
-                id="project_domain"
-                name="project_domain"
-                className="shadow-sm focus:ring-secondary-500 focus:border-secondary-500 mt-1 p-4 block w-full sm:text-sm border border-gray-300 rounded-md"
-                defaultValue={router?.query?.projectName}
-            />            
-            <input
-                required
-                type="hidden"
-                id="feature_type"
-                name="feature_type"
-                className="shadow-sm focus:ring-secondary-500 focus:border-secondary-500 mt-1 p-4 block w-full sm:text-sm border border-gray-300 rounded-md"
-                defaultValue={newFeatureDetails[1]}
-            />
-            <label htmlFor="feature_label" className="block text-sm font-medium text-gray-700 mt-4">
-                Feature Label
-            </label>
-            <div className="mt-1">
-              <input
-                  maxLength="40"
-                  required
-                  type="text"
-                  id="feature_label"
-                  name="feature_label"
-                  className="shadow-sm focus:ring-secondary-500 focus:border-secondary-500 mt-1 p-4 block w-full sm:text-sm border border-gray-300 rounded-md"
-                  placeholder="E.g. where you are placing the feature"
-                  defaultValue={''}
-              />
-            </div>
-            <button 
-              className="mt-5 inline-block px-5 py-2 font-medium text-white rounded-md bg-primary hover:bg-primary-2"
-            >
-              Add new feature
-            </button>
-            {
-              errorMessage &&
-              <div className="bg-red text-center p-4 mt-5 rounded-lg">
-                <p className="text-white text-sm font-medium">Error saving feature</p>
-              </div>
-            }
-          </form>        
+          <FeatureForm newFeatureDetails={newFeatureDetails} handleSubmit={handleSubmit}/>     
         </SideModal>
       }
       {
@@ -393,33 +351,6 @@ export default function FeatureTable({type}) {
                     placeholder="Your project/company/brand name"
                     defaultValue={existingFeatureDetails?.feature_type}
                 />
-              </div>
-              <label htmlFor="main_keyword" className="block text-sm font-medium text-gray-700 mt-4">
-                  Feature Status
-              </label>
-              <div className="mt-1">
-                <input
-                    required
-                    type="hidden"
-                    id="feature_status"
-                    name="feature_status"
-                    value={buttonToggle}
-                />
-                <button 
-                  onClick={e=>{buttonToggle === true ? setButtonToggle(false) : setButtonToggle(true) }}
-                  type="button" 
-                  className={`${
-                    buttonToggle ? 'bg-green' : 'bg-gray-200'
-                  } relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none`}
-                >
-                  <span className="sr-only">Use setting</span>
-                  <span 
-                    aria-hidden="true" 
-                    className={`${
-                      buttonToggle ? 'translate-x-5' : 'translate-x-0'
-                    } pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}  
-                  />
-                </button>
               </div>
               <button 
                 className="mt-5 inline-block px-6 py-3 font-medium text-white rounded-md bg-tertiary"

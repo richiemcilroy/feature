@@ -22,7 +22,7 @@ export default function RootDashboard() {
     await newProject(user, data).then((result) => {
       if(result === "Success"){
         setErrorMessage(false);
-        router.replace("/dashboard/"+data?.project_domain+"");
+        window.location.href = "/dashboard/"+data?.project_domain+"";
       } else {
         setErrorMessage(true);
       }

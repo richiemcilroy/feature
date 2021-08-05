@@ -102,7 +102,7 @@ export default function AdminNavItems() {
                               <span className="relative w-5 h-5 rounded-full block mr-2">
                                 {
                                   selectedProject?.project_domain &&
-                                  <Image src={'https://s2.googleusercontent.com/s2/favicons?domain='+selectedProject?.project_domain+''} objectFit='contain' layout='fill' />
+                                  <Image src={'https://s2.googleusercontent.com/s2/favicons?domain='+project?.project_domain+''} objectFit='contain' layout='fill' />
                                 }
                               </span>
                               <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>

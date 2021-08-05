@@ -179,10 +179,29 @@ const getProject = async (projectDomain) => {
     return data;
 };
 
+const getUserFromId = async (featureId, user) => {
+  const { data, error } = await supabaseAdmin
+    .from('features')
+    .select('id')
+    .eq('feature_id', featureId)
+    .single();
+
+    if(data?.id === user) {
+      return "verified";
+    }
+
+    console.log(error);
+
+    if (error) return "error";
+
+  return data;
+};
+
 export {
   upsertProductRecord,
   upsertPriceRecord,
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
-  getProject
+  getProject,
+  getUserFromId
 };
