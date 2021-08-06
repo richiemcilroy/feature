@@ -143,18 +143,19 @@ export const projectMetaUpdate = async (projectID, formData) => {
 };
 
 //Features
-export const newFeature = async (user, data) => {
-  const { error } = await supabase.from('features').insert({
+export const newFeature = async (user, formData) => {
+  const { data, error } = await supabase.from('features').insert({
     id: user?.id,
-    feature_type: data?.feature_type,
-    feature_label: data?.feature_label,
-    project_domain: data?.project_domain,
+    feature_type: formData?.feature_type,
+    feature_label: formData?.feature_label,
+    project_domain: formData?.project_domain,
+    feature_data: JSON.stringify(formData),
     feature_status: false
   });
   if (error) {
     throw error;
   } else {
-    return "Success";
+    return data;
   }
 };
 

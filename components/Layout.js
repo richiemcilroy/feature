@@ -1,12 +1,14 @@
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import Navbar from '@/components/ui/Navbar';
-import Footer from '@/components/ui/Footer';
-import AdminMobileNav from '@/components/ui/AdminNavbar/AdminMobileNav';
-import AdminDesktopNav from '@/components/ui/AdminNavbar/AdminDesktopNav';
-import SimpleNav from '@/components/ui/SimpleNav';
 
 export default function Layout({ children, meta: pageMeta }) {
+
+  const Navbar = dynamic(() => import('@/components/ui/Navbar'));
+  const Footer = dynamic(() => import('@/components/ui/Footer'));
+  const AdminMobileNav = dynamic(() => import('@/components/ui/AdminNavbar/AdminMobileNav'));
+  const AdminDesktopNav = dynamic(() => import('@/components/ui/AdminNavbar/AdminDesktopNav'));
+  const SimpleNav = dynamic(() => import('@/components/ui/SimpleNav'));
   const router = useRouter();
   const meta = {
     title: 'Next.js Subscription Starter',
@@ -40,6 +42,12 @@ export default function Layout({ children, meta: pageMeta }) {
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet"/>
+
+        {
+          router.pathname.indexOf('/embed') > -1 &&
+          <script async src="/iframeResizer.contentWindow.min.js"></script>
+        }
+
       </Head>
       {
         router.pathname === '/account' &&
@@ -48,7 +56,7 @@ export default function Layout({ children, meta: pageMeta }) {
           <SimpleNav />
       }
       {
-        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' && router.pathname !== '/create-project' &&
+        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' && router.pathname !== '/create-project' && router.pathname.indexOf('/embed') === -1 &&
         <Navbar />
       }
       {
@@ -68,7 +76,7 @@ export default function Layout({ children, meta: pageMeta }) {
           </div>
       }
       {
-        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' && router.pathname !== '/create-project' &&
+        router.pathname.indexOf('/dashboard') === -1 && router.pathname !== '/account' && router.pathname !== '/create-project' && router.pathname.indexOf('/embed') === -1 &&
         <Footer />
       }
     </>

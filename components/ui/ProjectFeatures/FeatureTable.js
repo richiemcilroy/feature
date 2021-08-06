@@ -6,6 +6,8 @@ import { UTCtoString } from '@/utils/helpers';
 import { capitalizeString } from '@/utils/helpers';
 import { useUser, newFeature, deleteFeature } from '@/utils/useUser';
 import Bin from '@/components/icons/Bin';
+import View from '@/components/icons/View';
+import Edit from '@/components/icons/Edit';
 import FeatureForm from '@/components/ui/ProjectFeatures/FeatureForm';
 import {
   CalendarIcon,
@@ -16,7 +18,7 @@ import {
   ViewListIcon,
 } from '@heroicons/react/outline';
 
-export default function FeatureTable({type}) {
+export default function FeatureTable() {
   const router = useRouter();
   const { userLoaded, user, session, userFinderLoaded, userFeatures } = useUser();
   const [featureToggle, setFeatureToggle] = useState(false);
@@ -31,6 +33,8 @@ export default function FeatureTable({type}) {
       if (!user) router.replace('/signin');
     }
   }, [userFinderLoaded, user]);
+
+  const filteredUserFeatures = userFeatures?.filter(userFeature => userFeature?.project_domain === router?.query?.projectName);
 
   const items = [
     {
@@ -69,9 +73,9 @@ export default function FeatureTable({type}) {
     }
 
     await newFeature(user, data).then((result) => {
-      if(result === "Success"){
+      if(result){
         setErrorMessage(false);
-        router.reload(window.location.pathname);
+        window.open('https://'+router?.query?.projectName+'?featureEditor=1&featureId='+result[0].feature_id+'&accessToken='+session?.access_token+'','_blank');
       } else {
         setErrorMessage(true);
       }
@@ -138,7 +142,7 @@ export default function FeatureTable({type}) {
                 <LoadingDots />
             </div>
         ) : (
-          userFeatures !== null && userFeatures?.length > 0 ?
+          filteredUserFeatures !== null && filteredUserFeatures?.length > 0 ?
             <div>            
               <div className="flex flex-col">
                 <div className="overflow-x-auto">
@@ -169,12 +173,6 @@ export default function FeatureTable({type}) {
                               scope="col"
                               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                             >
-                              Location
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
                               Status
                             </th>
                             <th
@@ -186,7 +184,7 @@ export default function FeatureTable({type}) {
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                          {userFeatures.map((feature, index) => (
+                          {filteredUserFeatures.map((feature, index) => (
                             <tr key={index}>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
@@ -210,35 +208,24 @@ export default function FeatureTable({type}) {
                                 <div className="text-sm text-gray-900">{UTCtoString(feature?.created)}</div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="flex items-center">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {
-                                      feature?.feature_data === null ? 
-                                        <button onClick={e=>{handleLocationSet(feature?.feature_id)}} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red text-white">
-                                          Add to site
-                                        </button> 
-                                      : 
-                                        feature?.feature_data
-                                    }
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
                                 {
                                   feature?.feature_status === true ?
-                                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green text-white">
-                                    Active
-                                  </span>
+                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green text-white">
+                                      Active
+                                    </span>
                                   :
-                                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-800">
-                                    Disabled
-                                  </span>      
+                                    <button onClick={e=>{handleLocationSet(feature?.feature_id)}} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red text-white">
+                                      Add to site
+                                    </button>  
                                 }
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div className="flex items-center justify-end">
-                                  <button onClick={e=>{ handleFeatureToggle(feature) }}>
-                                    Edit
+                                  <button className="ml-4" onClick={e=>{ window.open('/embed/'+feature?.feature_id) }}>
+                                    <View className="w-7 h-auto"/>
+                                  </button>
+                                  <button className="ml-4" onClick={e=>{ handleFeatureToggle(feature) }}>
+                                    <Edit className="w-5 h-auto"/>
                                   </button>
                                   <button className="ml-4" onClick={e=>{ handleDelete(feature?.feature_id) }}>
                                     <Bin className="w-5 h-auto"/>
@@ -320,7 +307,7 @@ export default function FeatureTable({type}) {
           setFeatureToggle={setFeatureToggle}
           title={'Add a new '+newFeatureDetails[0]+' feature to your website'}
         >
-          <FeatureForm newFeatureDetails={newFeatureDetails} handleSubmit={handleSubmit}/>     
+          <FeatureForm type={newFeatureDetails[1]} newFeatureDetails={newFeatureDetails} handleSubmit={handleSubmit}/>     
         </SideModal>
       }
       {

@@ -36,10 +36,45 @@ export default function FeatureForm(props) {
             defaultValue={''}
         />
       </div>
+      {
+        props.type === 'content-section' &&
+        <div>
+          <label htmlFor="section_title" className="block text-sm font-medium text-gray-700 mt-4">
+              Section Title
+          </label>
+          <div className="mt-1">
+            <input
+                maxLength="180"
+                required
+                type="text"
+                id="section_title"
+                name="section_title"
+                className="shadow-sm focus:ring-secondary-500 focus:border-secondary-500 mt-1 p-4 block w-full sm:text-sm border border-gray-300 rounded-md"
+                placeholder="This is the section title"
+                defaultValue={''}
+            />
+          </div> 
+          <label htmlFor="section_content" className="block text-sm font-medium text-gray-700 mt-4">
+              Section Content
+          </label>
+          <div className="mt-1">
+            <textarea
+                maxLength="1200"
+                required
+                id="section_content"
+                name="section_content"
+                rows={4}
+                className="shadow-sm focus:ring-secondary-500 focus:border-secondary-500 mt-1 p-6 block w-full sm:text-sm border border-gray-300 rounded-md"
+                placeholder="This is the section content, which appears below the section title."
+                defaultValue={''}
+            />
+          </div> 
+        </div>
+      }
       <button 
         className="mt-5 inline-block px-5 py-2 font-medium text-white rounded-md bg-primary hover:bg-primary-2"
       >
-        Add new feature
+        Visualise on site
       </button>
       {
         props?.errorMessage &&

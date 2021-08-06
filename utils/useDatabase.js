@@ -196,6 +196,19 @@ const getUserFromId = async (featureId, user) => {
 
   return data;
 };
+const getFeatureData = async (featureId) => {
+  const { data, error } = await supabaseAdmin
+    .from('features')
+    .select('feature_data')
+    .eq('feature_id', featureId)
+    .single();
+
+    console.log(error);
+
+    if (error) return null;
+
+  return data;
+};
 
 export {
   upsertProductRecord,
@@ -203,5 +216,6 @@ export {
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
   getProject,
-  getUserFromId
+  getUserFromId,
+  getFeatureData
 };
