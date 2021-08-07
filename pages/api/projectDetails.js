@@ -30,6 +30,8 @@ const projectDetails = async (req, res) => {
   const body = req.body;
   let filteredReferer = null;
 
+  console.log(headers);
+
   if(headers?.origin) {
     filteredReferer = headers.origin.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").replace(/\//g, "").replace(/\\/g, "-");
 
@@ -59,7 +61,7 @@ const projectDetails = async (req, res) => {
           const projectFeaturesFiltered = projectFeatures.filter(feature => feature.feature_status === true);
 
           if(projectFeaturesFiltered.length > 0){
-            
+
             return res.status(200).json({ verified: true, feature_data: projectFeatures });
           } else {
 
