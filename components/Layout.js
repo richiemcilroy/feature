@@ -10,8 +10,11 @@ export default function Layout({ children, meta: pageMeta }) {
   const AdminDesktopNav = dynamic(() => import('@/components/ui/AdminNavbar/AdminDesktopNav'));
   const SimpleNav = dynamic(() => import('@/components/ui/SimpleNav'));
   const router = useRouter();
+
+  console.log(router);
+  
   const meta = {
-    title: 'Next.js Subscription Starter',
+    title: 'Feature.so',
     description: 'Brought to you by Vercel, Stripe, and Supabase.',
     cardImage: '/og.png',
     ...pageMeta

@@ -46,7 +46,7 @@ export default function AdminNavItems() {
   ];
   const secondaryNavigation = [
     { name: 'Account', href: '/account', icon: UserIcon },
-    { name: 'Help', href: '#', icon: QuestionMarkCircleIcon }
+    { name: 'Help', href: 'mailto:richie@feature.so', icon: QuestionMarkCircleIcon }
   ];
 
   function classNames(...classes) {

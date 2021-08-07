@@ -1,15 +1,12 @@
 import { Disclosure } from '@headlessui/react';
 import { ArrowCircleRightIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Logo from '@/components/icons/Logo';
+import { useUser } from '@/utils/useUser';
 import Link from 'next/link';
 
 const Navbar = () => {
 
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
-
-  const navItemClass = "text-gray-500 hover:text-gray-900 items-center text-sm font-medium";
+  const { user } = useUser();
 
   return (
     <div className="bg-white">
@@ -28,27 +25,43 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <Link
-                href="/signin"
-              >                  
-                <a
-                  className="text-primary mr-4 text-xs md:text-sm"
-                >
-                  <span>Sign in</span>
-                </a>
-              </Link>
-              <Link
-                href="/signup"
-              >  
-                <a
-                  className="relative inline-flex items-center px-4 py-2 border border-transparent text-xs md:text-sm font-medium rounded-md text-white bg-primary shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 "
-                >
-                  <span>Get Started</span>
-                  <ArrowCircleRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
-                </a>
-              </Link>
-            </div>
+            {
+              user ?
+              <div className="flex-shrink-0">
+                <Link
+                  href="/dashboard"
+                >  
+                  <a
+                    className="relative inline-flex items-center px-4 py-2 border border-transparent text-xs md:text-sm font-medium rounded-md text-white bg-primary shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                  >
+                    <span>Dashboard</span>
+                    <ArrowCircleRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
+                  </a>
+                </Link>
+              </div>
+              :
+                <div className="flex-shrink-0">
+                  <Link
+                    href="/signin"
+                  >                  
+                    <a
+                      className="text-primary mr-4 text-xs md:text-sm"
+                    >
+                      <span>Sign in</span>
+                    </a>
+                  </Link>
+                  <Link
+                    href="/signup"
+                  >  
+                    <a
+                      className="relative inline-flex items-center px-4 py-2 border border-transparent text-xs md:text-sm font-medium rounded-md text-white bg-primary shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                    >
+                      <span>Get Started</span>
+                      <ArrowCircleRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
+                    </a>
+                  </Link>
+                </div>        
+            }
           </div>
         </div>
       </div>

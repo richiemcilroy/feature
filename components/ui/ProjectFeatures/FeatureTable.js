@@ -19,19 +19,34 @@ import {
 
 export default function FeatureTable() {
   const router = useRouter();
-  const { userLoaded, user, session, userFinderLoaded, userFeatures } = useUser();
+  const { userLoaded, user, session, userFinderLoaded, userProjects, userFeatures } = useUser();
   const [featureToggle, setFeatureToggle] = useState(false);
   const [existingFeatureToggle, setExistingFeatureToggle] = useState(false);
   const [existingFeatureDetails, setExistingFeatureDetails] = useState(null);
   const [newFeatureDetails, setNewFeatureDetails] = useState(null);
   const [errorMessage, setErrorMessage] = useState(false);
   const [buttonToggle, setButtonToggle] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     if(userFinderLoaded){
       if (!user) router.replace('/signin');
     }
-  }, [userFinderLoaded, user]);
+
+    if(userProjects){
+      
+      if(userProjects?.length > 0 && router?.query?.projectName){
+        const filteredProject = userProjects?.filter(project => project?.project_domain === router?.query?.projectName);
+
+        console.log(filteredProject)
+
+        if(filteredProject !== null){
+          setSelectedProject(filteredProject[0]);
+        }
+      }
+
+    }
+  }, [userFinderLoaded, user, userProjects, router]);
 
   const filteredUserFeatures = userFeatures?.filter(userFeature => userFeature?.project_domain === router?.query?.projectName);
 
@@ -278,7 +293,7 @@ export default function FeatureTable() {
               </div>
               <ul role="list" className="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 {items.map((item, itemIdx) => (
-                  <li onClick={e=>{ item?.link !== '#' && handleNewFeatureToggle(item.type) }} key={itemIdx} className="flow-root">
+                  <li onClick={e=>{ item?.link !== '#' && selectedProject?.project_verified === true && handleNewFeatureToggle(item.type) }} key={itemIdx} className="flow-root">
                     <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
                       <div
                         className={classNames(
@@ -314,12 +329,18 @@ export default function FeatureTable() {
             </div>
           :
             <div>
+              {
+                selectedProject?.project_verified === false &&
+                <p className="p-4 mb-2 inline-flex text-sm leading-5 font-semibold rounded-lg bg-red text-white">
+                  You need to verify your domain before you can add features to your site.
+                </p>  
+              }
               <p className="mt-1 text-sm text-gray-500">
                 You haven’t added any features to your website yet. Get started by selecting from one of the templates below.
               </p>
               <ul role="list" className="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 {items.map((item, itemIdx) => (
-                  <li onClick={e=>{ handleNewFeatureToggle(item.type) }} key={itemIdx} className="flow-root">
+                  <li onClick={e=>{ item?.link !== '#' && selectedProject?.project_verified === true && handleNewFeatureToggle(item.type) }} key={itemIdx} className="flow-root">
                     <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
                       <div
                         className={classNames(
@@ -337,7 +358,16 @@ export default function FeatureTable() {
                             <span aria-hidden="true"> &rarr;</span>
                           </button>
                         </h3>
-                        <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                        {
+                          item.description &&
+                          <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                        }
+                        {
+                          item?.comingSoon &&
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-700 text-white">
+                            Coming soon
+                          </span>
+                        }
                       </div>
                     </div>
                   </li>
