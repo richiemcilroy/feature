@@ -12,10 +12,10 @@ export default function Layout({ children, meta: pageMeta }) {
   const router = useRouter();
 
   console.log(router);
-  
+
   const meta = {
-    title: 'Feature.so',
-    description: 'Brought to you by Vercel, Stripe, and Supabase.',
+    title: 'Feature.so | Add new features to your website in minutes with no-code',
+    description: 'Add new features to your website in minutes with no-code',
     cardImage: '/og.png',
     ...pageMeta
   };
@@ -23,24 +23,24 @@ export default function Layout({ children, meta: pageMeta }) {
   return (
     <>
       <Head>
-        <title>{meta.title}</title>
+      <title>{meta.title}</title>
         <meta name="robots" content="follow, index" />
-        <link href="/favicon.ico" rel="shortcut icon" />
         <meta content={meta.description} name="description" />
         <meta
           property="og:url"
-          content={`https://subscription-starter.vercel.app${router.asPath}`}
+          content={`https://feature.so`}
         />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={meta.title} />
         <meta property="og:description" content={meta.description} />
         <meta property="og:title" content={meta.title} />
         <meta property="og:image" content={meta.cardImage} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@vercel" />
-        <meta name="twitter:title" content={meta.title} />
-        <meta name="twitter:description" content={meta.description} />
-        <meta name="twitter:image" content={meta.cardImage} />
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title" content="Feature.so | Add new features to your website in minutes with no-code"/>
+        <meta name="twitter:site" content="@feature_so"/>
+        <meta name="twitter:description" content="Feature.so is a time saving, no-code tool that allows you to add new features to your site in minutes. Simply verify your domain and use our powerful in-browser visualliser to add your feature."/>
+        <meta name="twitter:image" content="https://feature.so/og.png"/>
+        <meta name="twitter:image:alt" content="Feature.so"/>
   
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
