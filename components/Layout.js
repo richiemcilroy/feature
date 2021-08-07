@@ -38,7 +38,7 @@ export default function Layout({ children, meta: pageMeta }) {
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="Feature.so | Add new features to your website in minutes with no-code"/>
         <meta name="twitter:site" content="@feature_so"/>
-        <meta name="twitter:description" content="Feature.so is a time saving, no-code tool that allows you to add new features to your site in minutes. Simply verify your domain and use our powerful in-browser visualliser to add your feature."/>
+        <meta name="twitter:description" content="Feature.so is a time saving, no-code tool that allows you to add new features to your site in minutes. Simply verify your domain and use our powerful in-browser visualizer to add your feature."/>
         <meta name="twitter:image" content="https://feature.so/og.png"/>
         <meta name="twitter:image:alt" content="Feature.so"/>
   
