@@ -1,8 +1,10 @@
-import { useState } from 'react';
 import Logo from '@/components/icons/Logo';
 import Link from 'next/link';
+import { useUser } from '@/utils/useUser';
 
 export default function SimpleNav() {
+  const { signOut } = useUser();
+
   return(
     <nav className="py-5 flex justify-between items-center wrapper bg-transparent">
       <Link href="/">
