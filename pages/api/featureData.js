@@ -25,15 +25,11 @@ const featureData = async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
 
-  console.log(req);
-
   const body = req.body;
 
   try {
 
     const featureData = await getFeatureData(body?.feature_id);
-
-    console.log(featureData);
 
     return res.json({ feature_data: featureData?.feature_data });
 

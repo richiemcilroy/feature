@@ -21,6 +21,23 @@ var projectso = async function() {
     scriptTag.async = true;
     document.head.appendChild(scriptTag);
 
+    if(passedData?.feature_data){
+      passedData?.feature_data.forEach(function(feature) {
+        if(feature?.feature_status === true){
+          console.log(feature);
+          let featureIframe = [
+            '<iframe id="feature-'+feature?.feature_id+'" frameBorder="0" title="iframe" src="http://localhost:3000/embed/'+feature?.feature_id+'" style="width: 100%; height:auto; border:none; outline:none;" scrolling="no"></iframe>'
+          ].join('');
+          let iframeDiv = document.createElement('div');
+          iframeDiv.innerHTML = featureIframe;
+          document.querySelector(feature?.feature_path).insertAdjacentHTML('afterEnd', iframeDiv.outerHTML);
+          setTimeout(function (){
+            iFrameResize();
+          }, 1000);
+        }
+      });
+    }
+
     if (window.location.href.indexOf("featureEditor=1") > -1 && window.location.href.indexOf("featureId=") > -1 && window.location.href.indexOf("accessToken=") > -1){
       const featureId = window.location.href.split("featureId=")[1].split("&")[0];
       const accessToken = window.location.href.split("accessToken=")[1].split("&")[0];
@@ -39,7 +56,7 @@ var projectso = async function() {
         .then(function (result) {
           console.log(result);
           if(result?.token_confirmed === true && result?.token_expired === false){
-            initialiseEditor(featureId);
+            initialiseEditor(featureId, accessToken);
           }
         })
         .catch (function (error) {
@@ -51,15 +68,18 @@ var projectso = async function() {
 
   await getData();
 
-  function initialiseEditor(featureId){
+  function initialiseEditor(featureId, accessToken){
 
     const editorHtmlStyling = `
+      body.featureso-body {
+        cursor: pointer !important;
+      }
       .featureso-feature-overlay { 
         text-align: center !important;
         background: #2d8589 !important;
         color: #fff !important;
         font-size: 20px !important;
-        padding: 2rem !important;
+        padding: 3rem !important;
         width: 100% !important;
         position: fixed !important;
         bottom: 0 !important;
@@ -88,8 +108,32 @@ var projectso = async function() {
         cursor: pointer !important;
         transition: none !important;
       }
-      body {
+      .featureso-buttons {
+        margin-top: 2rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .featureso-button {
+        border: none !important;
+        padding: 0.8rem 1.25rem !important;
+        border-radius: 30px !important;
+        font-size: 18px !important;
+        letter-spacing: 0px !important;
+        font-family: sans-serif !important;
+        font-weight: bold !important;
+        background-color: #fff !important;
+        color: #000 !important;
         cursor: pointer !important;
+      }
+      .featureso-button__delete {
+        background-color: #da3c3c !important;
+        color: #fff !important; 
+        margin-left: 10px !important;
+      }
+      .featureso-noclick {
+        pointer-events: none !important;
+        cursor: progress !important;
       }
     `;
 
@@ -110,6 +154,8 @@ var projectso = async function() {
     editorDiv.innerHTML = editorHtml;
     document.documentElement.appendChild(editorDiv);
 
+    document.body.classList.add('featureso-body');
+
     const sectionIframe = [
       '<iframe id="feature-'+featureId+'" frameBorder="0" title="iframe" src="http://localhost:3000/embed/'+featureId+'" style="width: 100%; height:auto; border:none; outline:none;" scrolling="no"></iframe>'
     ].join('');
@@ -125,19 +171,56 @@ var projectso = async function() {
 
       e.target.insertAdjacentHTML('afterEnd', iframeDiv.outerHTML);
 
-      setTimeout(function (){
-        iFrameResize();
-      }, 1000);
+      iFrameResize();
 
-      document.body.removeEventListener("mouseover", handler, false);
-
-      // sectionAdded(e.target);
+      sectionAdded(e.path, featureId, accessToken);
       
     });
   }
 
-  // function sectionAdded(e){
-  //   const overlay = document.querySelector('.featureso-feature-overlay'){}
-  // }
+  function sectionAdded(targetElement, featureId, accessToken){
+    const overlay = document.querySelector('.featureso-feature-overlay');
+    let arrayOne = targetElement[1].classList.value.split(/\s+/);
+    let selectorOne = '.' + arrayOne.join('.');
+    let arrayTwo = targetElement[0].classList.value.split(/\s+/);
+    let selectorTwo = '.' + arrayTwo.join('.');
+    let joinedArray = selectorOne+" "+selectorTwo;
+    joinedArray = joinedArray.replace(".featureso-body", "");
+
+    const confirmHtml = [
+      '<div class="featureso-confirm-box">',
+        '<div class="featureso-buttons">',
+          '<button class="featureso-button featureso-button__confirm">Add to site</button>',
+          '<button class="featureso-button featureso-button__delete">Delete</button>',
+        '</div>',
+      '</div>'
+    ].join('');
+    if(!overlay.querySelector('.featureso-confirm-box')){
+      overlay.innerHTML += confirmHtml;
+    }
+    document.querySelector('.featureso-button__confirm').addEventListener("click", function(e) {
+      e.target.classList.add("featureso-noclick");
+
+      fetch(''+rootAPIDomain+'addToSite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"feature_id": featureId, "access_token": accessToken, "targetElement": joinedArray })
+      })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (result) {
+        console.log(result);
+        if(result?.token_confirmed === true && result?.token_expired === false){
+          initialiseEditor(featureId);
+        }
+      })
+      .catch (function (error) {
+        console.log('Request failed', error);
+      });
+    });
+  }
 
 }({});

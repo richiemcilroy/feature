@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import LoadingDots from '@/components/ui/LoadingDots';
 import { useUser } from '@/utils/useUser';
+import Twitter from '@/components/icons/Twitter';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -127,6 +128,28 @@ const SignIn = () => {
                   </a>
                 </Link>
               </div>
+
+              <div className="flex items-center my-6">
+                <div
+                  className="border-t border-accents-4 flex-grow mr-3"
+                  aria-hidden="true"
+                ></div>
+                <div className="text-accents-4">Or</div>
+                <div
+                  className="border-t border-accents-4 flex-grow ml-3"
+                  aria-hidden="true"
+                ></div>
+              </div>
+
+              <button
+                type="button"
+                className="flex align-center justify-center h-full min-h-full w-full font-medium rounded-lg m-0 p-3 px-5 border-2 hover:bg-accents-9 bg-white"
+                disabled={loading}
+                onClick={() => handleOAuthSignIn('twitter')}
+              >
+                <Twitter />
+                <span className="ml-2">Sign in with Twitter</span>
+              </button>
 
               {message.content && (
                 <div

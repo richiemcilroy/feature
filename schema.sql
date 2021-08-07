@@ -69,7 +69,7 @@ create table projects (
   id uuid references auth.users not null,
   project_id text default generate_uid(20),
   project_name text,
-  project_domain text,
+  project_domain text UNIQUE,
   project_verified boolean,
   project_data jsonb,
   created timestamp with time zone default timezone('utc'::text, now()) not null
@@ -91,6 +91,7 @@ create table features (
   feature_id text default generate_uid(20),
   project_domain text,
   feature_data jsonb,
+  feature_path text,
   feature_label text,
   feature_status boolean,
   created timestamp with time zone default timezone('utc'::text, now()) not null

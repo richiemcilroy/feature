@@ -157,14 +157,11 @@ const getProject = async (projectDomain) => {
       .eq('project_domain', projectDomain)
       .single();
 
-      console.log("project data");
-      console.log(data);
+      console.log(error)
 
       if (error) return "error";
 
     if(data.project_verified === false){
-
-      console.log("project verified false");
 
       const { error } = await supabaseAdmin
       .from('projects')
@@ -175,6 +172,19 @@ const getProject = async (projectDomain) => {
 
       if (error) return "error";
     }
+
+    return data;
+};
+
+const getFeatures = async (projectDomain) => {
+  const { data, error } = await supabaseAdmin
+    .from('features')
+    .select('feature_id, feature_status, feature_path')
+    .eq('project_domain', projectDomain);
+
+    console.log(error)
+
+    if (error) return "error";
 
     return data;
 };
@@ -196,6 +206,21 @@ const getUserFromId = async (featureId, user) => {
 
   return data;
 };
+
+const addFeatureToLive = async (featureId, featurePath) => {
+  console.log(featurePath);
+  const { error } = await supabaseAdmin
+    .from('features')
+    .update({
+      feature_path: featurePath,
+      feature_status: true
+    }).eq('feature_id', featureId);
+
+    if (error) return "error";
+
+    return "success";
+};
+
 const getFeatureData = async (featureId) => {
   const { data, error } = await supabaseAdmin
     .from('features')
@@ -216,6 +241,8 @@ export {
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
   getProject,
+  getFeatures,
   getUserFromId,
-  getFeatureData
+  getFeatureData,
+  addFeatureToLive
 };

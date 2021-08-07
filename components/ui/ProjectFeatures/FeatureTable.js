@@ -4,7 +4,7 @@ import LoadingDots from '@/components/ui/LoadingDots';
 import SideModal from '@/components/ui/SideModal';
 import { UTCtoString } from '@/utils/helpers';
 import { capitalizeString } from '@/utils/helpers';
-import { useUser, newFeature, deleteFeature } from '@/utils/useUser';
+import { useUser, newFeature, editFeature, deleteFeature } from '@/utils/useUser';
 import Bin from '@/components/icons/Bin';
 import View from '@/components/icons/View';
 import Edit from '@/components/icons/Edit';
@@ -38,7 +38,7 @@ export default function FeatureTable() {
 
   const items = [
     {
-      title: 'Create a content section',
+      title: 'Add a content section',
       type: 'content-section',
       description: 'Add a custom content section to your website',
       icon: ViewListIcon,
@@ -46,7 +46,7 @@ export default function FeatureTable() {
       link: ''+router?.asPath+'/content-section'
     },
     {
-      title: 'Create a contact form',
+      title: 'Add a contact form',
       type: 'contact-form',
       description: 'Start receiving enquiries in minutes with our plug and play contact form',
       icon: CalendarIcon,
@@ -64,6 +64,8 @@ export default function FeatureTable() {
     e.preventDefault();
 
     setFeatureToggle(false);
+
+    console.log(formData)
 
     const formData = new FormData(e.target);
     const data = {};
@@ -87,7 +89,7 @@ export default function FeatureTable() {
 
     e.preventDefault();
 
-    setExistingFeatureToggle(false);
+    setFeatureToggle(false);
 
     const formData = new FormData(e.target);
     const data = {};
@@ -118,11 +120,9 @@ export default function FeatureTable() {
     }
   };
 
-
   const handleFeatureToggle = (e) => {
     setExistingFeatureToggle(true);
     setExistingFeatureDetails(e);
-    setButtonToggle(e?.feature_status);
   };
 
   const handleNewFeatureToggle = (e) => {
@@ -307,7 +307,7 @@ export default function FeatureTable() {
           setFeatureToggle={setFeatureToggle}
           title={'Add a new '+newFeatureDetails[0]+' feature to your website'}
         >
-          <FeatureForm type={newFeatureDetails[1]} newFeatureDetails={newFeatureDetails} handleSubmit={handleSubmit}/>     
+          <FeatureForm existingFeatureDetails={null} type={newFeatureDetails[1]} newFeatureDetails={newFeatureDetails} handleSubmit={handleSubmit}/>     
         </SideModal>
       }
       {
@@ -316,41 +316,7 @@ export default function FeatureTable() {
           setFeatureToggle={setExistingFeatureToggle}
           title="Edit Feature"
         >
-          <form action="#" method="POST" onSubmit={handleChange}>
-              <input
-                  required
-                  type="hidden"
-                  id="feature_id"
-                  name="feature_id"
-                  value={existingFeatureDetails?.feature_id}
-              />
-              <label htmlFor="main_keyword" className="block text-sm font-medium text-gray-700">
-                  Feature Type
-              </label>
-              <div className="mt-1">
-                <input
-                    maxLength="40"
-                    required
-                    type="text"
-                    id="feature_type"
-                    name="feature_type"
-                    className="shadow-sm focus:ring-secondary-500 focus:border-secondary-500 mt-1 p-4 block w-full sm:text-sm border border-gray-300 rounded-md"
-                    placeholder="Your project/company/brand name"
-                    defaultValue={existingFeatureDetails?.feature_type}
-                />
-              </div>
-              <button 
-                className="mt-5 inline-block px-6 py-3 font-medium text-white rounded-md bg-tertiary"
-              >
-                Save
-              </button>
-              {
-                errorMessage &&
-                <div className="bg-red text-center p-4 mt-5 rounded-lg">
-                  <p className="text-white text-sm font-medium">Error saving changes</p>
-                </div>
-              }
-          </form>        
+          <FeatureForm existingFeatureDetails={existingFeatureDetails} newFeatureDetails={newFeatureDetails} handleSubmit={handleChange}/>   
         </SideModal>
       }
     </div>

@@ -1,4 +1,4 @@
-import { getProject } from '@/utils/useDatabase';
+import { getProject, getFeatures } from '@/utils/useDatabase';
 import Cors from 'cors';
 import { getURL } from '@/utils/helpers';
 
@@ -30,8 +30,11 @@ const projectDetails = async (req, res) => {
   const body = req.body;
   let filteredReferer = null;
 
-  if(headers.referer) {
-    filteredReferer = headers.referer.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").replace(/\//g, "").replace(/\\/g, "-");
+  if(headers?.origin) {
+    filteredReferer = headers.origin.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").replace(/\//g, "").replace(/\\/g, "-");
+
+    console.log(filteredReferer);
+
   } else {
     return res.status(500).json({ statusCode: 500, referer: false });
   }
@@ -40,11 +43,30 @@ const projectDetails = async (req, res) => {
     if(filteredReferer !== null){
 
       const projectVerify = await getProject(filteredReferer);
+
+      console.log(projectVerify)
       
       if(projectVerify === "error"){
         return res.status(500).json({ statusCode: 500, verified: false });
       } else {
-        return res.status(200).json({ verified: true });
+
+        const projectFeatures = await getFeatures(filteredReferer);
+
+        if(projectFeatures === "error"){
+          return res.status(500).json({ statusCode: 500, verified: true });
+
+        } else {
+          const projectFeaturesFiltered = projectFeatures.filter(feature => feature.feature_status === true);
+
+          if(projectFeaturesFiltered.length > 0){
+            
+            return res.status(200).json({ verified: true, feature_data: projectFeatures });
+          } else {
+
+            return res.status(500).json({ statusCode: 500, verified: true });
+          }
+
+        }
       }
 
     } else {

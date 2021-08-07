@@ -41,7 +41,7 @@ export default function AdminNavItems() {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard/'+selectedProject?.project_domain+'', icon: HomeIcon },
     { name: 'Features', href: '/dashboard/'+selectedProject?.project_domain+'/features', icon: ShieldCheckIcon },
-    { name: 'Analytics', href: '#', icon: DocumentReportIcon },
+    { name: 'Analytics', href: '/dashboard/'+selectedProject?.project_domain+'/analytics', icon: DocumentReportIcon },
     { name: 'Settings', href: '/dashboard/'+selectedProject?.project_domain+'/settings', icon: CogIcon },
   ];
   const secondaryNavigation = [

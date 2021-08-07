@@ -1,4 +1,4 @@
-import { getUserFromId } from '@/utils/useDatabase';
+import { getUserFromId, addFeatureToLive } from '@/utils/useDatabase';
 import Cors from 'cors';
 import jwt_decode from "jwt-decode";
 import { getURL } from '@/utils/helpers';
@@ -53,7 +53,13 @@ const confirmSession = async (req, res) => {
       const projectVerified = await getUserFromId(body?.feature_id, decoded?.sub);
 
       if(projectVerified === 'verified'){
-        return res.status(200).json({ token_confirmed: true, decoded_token: decoded, token_expired: tokenExpired });
+
+        const addFeature = await addFeatureToLive(body?.feature_id, body?.targetElement);
+
+        if(addFeature === "success"){
+          return res.status(200).json({ token_confirmed: true, decoded_token: decoded, token_expired: tokenExpired, feature_added: true });
+        }
+
       }
 
       return res.status(500).json({ statusCode: 500, authConfirmed: false });

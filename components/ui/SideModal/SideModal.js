@@ -16,14 +16,14 @@ const SideModal = (props) => {
                 </svg>
               </button>
             </div>
-            <div className="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
+            <div className="h-full flex flex-col pb-12 pt-6 lg:pb-0 bg-white shadow-xl overflow-y-scroll">
               <div className="px-4 sm:px-6">
                 <h2 className="text-lg font-medium text-gray-900" id="slide-over-title">
                   {props?.title}
                 </h2>
               </div>
-              <div className="mt-6 relative flex-1 px-4 sm:px-6">
-                <div className="absolute inset-0 px-4 sm:px-6">
+              <div className="h-full mt-6 relative flex-1 px-4 sm:px-6">
+                <div className="h-full absolute inset-0 px-4 sm:px-6">
                   <div className="h-full border-2 border-dashed p-6 border-gray-200" aria-hidden="true">
                     {props?.children}
                   </div>
