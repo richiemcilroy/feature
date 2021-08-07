@@ -27,6 +27,7 @@ const confirmSession = async (req, res) => {
   // Run the middleware
   await runMiddleware(req, res, cors);
 
+  const headers = req.headers;
   const body = req.body;
 
   try {
@@ -56,8 +57,14 @@ const confirmSession = async (req, res) => {
 
         const addFeature = await addFeatureToLive(body?.feature_id, body?.targetElement);
 
+        let filteredReferer = null;
+      
+        if(headers?.origin) {
+          filteredReferer = headers.origin.replace(/(^\w+:|^)\/\//, '');      
+        }
+
         if(addFeature === "success"){
-          return res.status(200).json({ token_confirmed: true, decoded_token: decoded, token_expired: tokenExpired, feature_added: true });
+          return res.status(200).json({ token_confirmed: true, decoded_token: decoded, token_expired: tokenExpired, feature_added: true, project_domain: filteredReferer });
         }
 
       }

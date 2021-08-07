@@ -216,8 +216,8 @@ var projectso = async function() {
       })
       .then(function (result) {
         console.log(result);
-        if(result?.token_confirmed === true && result?.token_expired === false){
-          initialiseEditor(featureId);
+        if(result?.token_confirmed === true && result?.token_expired === false && feature_added === true){
+          window.open('https://feature.so/dashboard/'+result?.project_domain+'/features', '_blank');window.setTimeout(function(){this.close();},1000)
         }
       })
       .catch (function (error) {
