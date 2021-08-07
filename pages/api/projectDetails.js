@@ -33,7 +33,7 @@ const projectDetails = async (req, res) => {
   console.log(headers);
 
   if(headers?.origin) {
-    filteredReferer = headers.origin.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").replace(/\//g, "").replace(/\\/g, "-");
+    filteredReferer = headers.origin.replace(/(^\w+:|^)\/\//, '');
 
     console.log(filteredReferer);
 
