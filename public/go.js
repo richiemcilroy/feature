@@ -1,7 +1,7 @@
 var projectso = async function() {
   "use strict";
 
-  const rootAPIDomain = 'http://localhost:3000/api/';
+  const rootAPIDomain = 'https://feature.so/api/';
 
   async function getData(){
     console.log(rootAPIDomain+'projectDetails');
@@ -17,7 +17,7 @@ var projectso = async function() {
   async function dataComplete(passedData){
 
     let scriptTag = document.createElement('script');
-    scriptTag.src = "http://localhost:3000/iframeResizer.min.js";
+    scriptTag.src = "https://feature.so/iframeResizer.min.js";
     scriptTag.async = true;
     document.head.appendChild(scriptTag);
 
@@ -26,7 +26,7 @@ var projectso = async function() {
         if(feature?.feature_status === true){
           console.log(feature);
           let featureIframe = [
-            '<iframe id="feature-'+feature?.feature_id+'" frameBorder="0" title="iframe" src="http://localhost:3000/embed/'+feature?.feature_id+'" style="width: 100%; height:auto; border:none; outline:none;" scrolling="no"></iframe>'
+            '<iframe id="feature-'+feature?.feature_id+'" frameBorder="0" title="iframe" src="https://feature.so/embed/'+feature?.feature_id+'" style="width: 100%; height:auto; border:none; outline:none;" scrolling="no"></iframe>'
           ].join('');
           let iframeDiv = document.createElement('div');
           iframeDiv.innerHTML = featureIframe;
@@ -157,7 +157,7 @@ var projectso = async function() {
     document.body.classList.add('featureso-body');
 
     const sectionIframe = [
-      '<iframe id="feature-'+featureId+'" frameBorder="0" title="iframe" src="http://localhost:3000/embed/'+featureId+'" style="width: 100%; height:auto; border:none; outline:none;" scrolling="no"></iframe>'
+      '<iframe id="feature-'+featureId+'" frameBorder="0" title="iframe" src="https://feature.so/embed/'+featureId+'" style="width: 100%; height:auto; border:none; outline:none;" scrolling="no"></iframe>'
     ].join('');
     let iframeDiv = document.createElement('div');
     iframeDiv.innerHTML = sectionIframe;
