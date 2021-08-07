@@ -171,7 +171,9 @@ var projectso = async function() {
 
       e.target.insertAdjacentHTML('afterEnd', iframeDiv.outerHTML);
 
-      iFrameResize();
+      setTimeout(function (){
+        iFrameResize();
+      }, 1000);
 
       sectionAdded(e.path, featureId, accessToken);
       
@@ -186,6 +188,7 @@ var projectso = async function() {
     let selectorTwo = '.' + arrayTwo.join('.');
     let joinedArray = selectorOne+" "+selectorTwo;
     joinedArray = joinedArray.replace(".featureso-body", "");
+    joinedArray = joinedArray.replace(". .", " ");
 
     const confirmHtml = [
       '<div class="featureso-confirm-box">',
