@@ -188,7 +188,7 @@ var projectso = async function() {
     let selectorTwo = '.' + arrayTwo.join('.');
     let joinedArray = selectorOne+" "+selectorTwo;
     joinedArray = joinedArray.replace(".featureso-body", "");
-    joinedArray = joinedArray.replace(". .", " ");
+    joinedArray = joinedArray.replace(". .", " .");
 
     const confirmHtml = [
       '<div class="featureso-confirm-box">',

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { updateUserName } from '@/utils/supabase-client';
 import { useUser } from '@/utils/useUser';
 import { LockClosedIcon } from '@heroicons/react/solid';
+import Twitter from '@/components/icons/Twitter';
 
 const SignUp = () => {
   const [user, setUser] = useState(null);
@@ -13,7 +14,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', content: '' });
   const router = useRouter();
-  const { signUp } = useUser();
+  const { signUp, signIn } = useUser();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -33,6 +34,15 @@ const SignUp = () => {
           content: 'Check your email for the confirmation link.'
         });
       }
+    }
+    setLoading(false);
+  };
+
+  const handleOAuthSignIn = async (provider) => {
+    setLoading(true);
+    const { error } = await signIn({ provider });
+    if (error) {
+      setMessage({ type: 'error', content: error.message });
     }
     setLoading(false);
   };
@@ -120,6 +130,28 @@ const SignUp = () => {
               </a>
             </Link>
           </div>
+
+          <div className="flex items-center my-6">
+            <div
+              className="border-t border-accents-4 flex-grow mr-3"
+              aria-hidden="true"
+            ></div>
+            <div className="text-accents-4">Or</div>
+            <div
+              className="border-t border-accents-4 flex-grow ml-3"
+              aria-hidden="true"
+            ></div>
+          </div>
+
+          <button
+            type="button"
+            className="flex align-center justify-center h-full min-h-full w-full font-medium rounded-lg m-0 p-3 px-5 border-2 hover:bg-accents-9 bg-white"
+            disabled={loading}
+            onClick={() => handleOAuthSignIn('twitter')}
+          >
+            <Twitter />
+            <span className="ml-2">Sign up with Twitter</span>
+          </button>
 
           {message.content && (
             <div

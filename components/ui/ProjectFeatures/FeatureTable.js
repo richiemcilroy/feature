@@ -11,11 +11,10 @@ import Edit from '@/components/icons/Edit';
 import FeatureForm from '@/components/ui/ProjectFeatures/FeatureForm';
 import {
   CalendarIcon,
-  ClockIcon,
   PhotographIcon,
-  TableIcon,
-  ViewBoardsIcon,
   ViewListIcon,
+  ArrowCircleDownIcon,
+  ShoppingCartIcon
 } from '@heroicons/react/outline';
 
 export default function FeatureTable() {
@@ -48,10 +47,47 @@ export default function FeatureTable() {
     {
       title: 'Add a contact form',
       type: 'contact-form',
-      description: 'Start receiving enquiries in minutes with our plug and play contact form',
+      description: '',
       icon: CalendarIcon,
       background: 'bg-primary-2',
-      link: ''+router?.asPath+'/contact-form'
+      link: '#',
+      comingSoon: true
+    },
+    {
+      title: 'Add an accordion section',
+      type: 'accordion-section',
+      description: '',
+      icon: ArrowCircleDownIcon,
+      background: 'bg-primary-2',
+      link: '#',
+      comingSoon: true
+    },
+    {
+      title: 'Add a Calendly form embed',
+      type: 'calendly-form',
+      description: '',
+      icon: CalendarIcon,
+      background: 'bg-primary-2',
+      link: '#',
+      comingSoon: true
+    },
+    {
+      title: 'Add a product and take payments',
+      type: 'product',
+      description: '',
+      icon: ShoppingCartIcon,
+      background: 'bg-primary-2',
+      link: '#',
+      comingSoon: true
+    },
+    {
+      title: 'Add an image gallery',
+      type: 'image-gallery',
+      description: '',
+      icon: PhotographIcon,
+      background: 'bg-primary-2',
+      link: '#',
+      comingSoon: true
     }
   ];
 
@@ -242,7 +278,7 @@ export default function FeatureTable() {
               </div>
               <ul role="list" className="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 {items.map((item, itemIdx) => (
-                  <li onClick={e=>{ handleNewFeatureToggle(item.type) }} key={itemIdx} className="flow-root">
+                  <li onClick={e=>{ item?.link !== '#' && handleNewFeatureToggle(item.type) }} key={itemIdx} className="flow-root">
                     <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
                       <div
                         className={classNames(
@@ -260,7 +296,16 @@ export default function FeatureTable() {
                             <span aria-hidden="true"> &rarr;</span>
                           </button>
                         </h3>
-                        <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                        {
+                          item.description &&
+                          <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                        }
+                        {
+                          item?.comingSoon &&
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-700 text-white">
+                            Coming soon
+                          </span>
+                        }
                       </div>
                     </div>
                   </li>
