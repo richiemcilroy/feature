@@ -51,6 +51,8 @@ export default function Layout({ children, meta: pageMeta }) {
           <script async src="/iframeResizer.contentWindow.min.js"></script>
         }
 
+        <script defer data-domain="feature.so" src="https://plausible.io/js/plausible.js"></script>
+
       </Head>
       {
         router.pathname === '/account' &&
