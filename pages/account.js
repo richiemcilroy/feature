@@ -68,43 +68,8 @@ export default function Account() {
             `You are currently on the ${subscriptionName} plan.`
             : 'You are currently on the free plan.'
           }
-          footer={
-            <div className="flex items-start justify-between flex-col sm:flex-row sm:items-center">
-              <p className="pb-4 sm:pb-0">
-                Manage your subscription on Stripe.
-              </p>
-              <button className="px-4 py-2 text-md font-medium bg-white text-primary rounded-lg">Open customer portal</button>
-            </div>
-          }
         >
-          <div className="text-xl mt-8 mb-4 font-semibold">
-            {!userLoaded ? (
-              <div className="h-12 mb-6">
-                <LoadingDots />
-              </div>
-            ) : subscriptionPrice ? (
-              `${subscriptionPrice}/${subscription.prices.interval}`
-            ) : (
-              <Link href="/">
-                <a>Choose your plan</a>
-              </Link>
-            )}
-          </div>
-        </Card>
-        <Card
-          title="Your Name"
-          description="Please enter your full name, or a display name you are comfortable with."
-          footer={<p>Please use 64 characters at maximum.</p>}
-        >
-          <div className="text-xl mt-8 mb-4 font-semibold">
-            {userDetails ? (
-              `${userDetails?.full_name ?? ''}`
-            ) : (
-              <div className="h-8 mb-6">
-                <LoadingDots />
-              </div>
-            )}
-          </div>
+
         </Card>
         <Card
           title="Your Email"
