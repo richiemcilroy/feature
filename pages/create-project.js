@@ -19,14 +19,23 @@ export default function RootDashboard() {
       data[entry[0]] = entry[1];
     }
 
-    await newProject(user, data).then((result) => {
-      if(result === "Success"){
-        setErrorMessage(false);
-        window.location.href = "/dashboard/"+data?.project_domain+"";
-      } else {
-        setErrorMessage(true);
-      }
-    });
+    const domainFiltered = data?.project_domain.replace(/(^\w+:|^)\/\//, '').replace('www','');
+    const domainCheck = isValidDomain(domainFiltered);
+    
+    if(domainCheck === false){
+      setErrorMessage(true);
+    }
+
+    if(domainCheck === true){
+      await newProject(user, data).then((result) => {
+        if(result === "Success"){
+          setErrorMessage(false);
+          window.location.href = "/dashboard/"+data?.project_domain+"";
+        } else {
+          setErrorMessage(true);
+        }
+      });
+    }
 
   };
 
@@ -95,8 +104,8 @@ export default function RootDashboard() {
 
             {
               errorMessage &&
-              <div className="bg-red text-center p-4 mt-5 rounded-lg">
-                <p className="text-white text-sm font-medium">Error creating project, please try again later</p>
+              <div className="bg-red text-center p-4 mt-8 rounded-lg">
+                <p className="text-white text-sm font-medium">Invalid domain name, please try again</p>
               </div>
             }
           </div>

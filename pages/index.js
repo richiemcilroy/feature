@@ -22,7 +22,7 @@ export default function Index({ products }) {
                     Add new features to your website in minutes with no-code
                   </h1>
                   <p className="mt-6 text-xl text-gray-500">
-                    <span class="font-semibold">Feature.so</span> is a time saving, no-code tool that allows you to add new features to your site in minutes. Simply verify your domain and use our powerful in-browser visualizer to add your feature.
+                    <span className="font-semibold">Feature.so</span> is a time saving, no-code tool that allows you to add new features to your site in minutes. Simply verify your domain and use our powerful in-browser visualizer to add your feature.
                   </p>
                 </div>
                 <Link

@@ -60,7 +60,7 @@ const confirmSession = async (req, res) => {
         let filteredReferer = null;
       
         if(headers?.origin) {
-          filteredReferer = headers.origin.replace(/(^\w+:|^)\/\//, '');      
+          filteredReferer = headers.origin.replace(/(^\w+:|^)\/\//, '').replace('www.', '');      
         }
 
         if(addFeature === "success"){
