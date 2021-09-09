@@ -7,8 +7,8 @@ import { useRouter } from 'next/router';
 
 export default function MyApp({ Component, pageProps }) {
   const UserContextProvider = dynamic(() =>
-  import("@/utils/useUser").then((module) => module.UserContextProvider)
-);
+    import("@/utils/useUser").then((module) => module.UserContextProvider)
+  );
   const router = useRouter();
 
   console.log(router)

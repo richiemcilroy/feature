@@ -1,82 +1,50 @@
-import { ArrowCircleRightIcon } from '@heroicons/react/outline';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useUser } from '@/utils/useUser';
+import { CheckIcon } from '@heroicons/react/outline';
 import Testimonials from '@/components/Testimonials';
 
-export default function Index({ products }) {
+export default function Index() {
+  const { userLoaded } = useUser();
+
   return(
     <div>
-      <div className="bg-white pb-8 sm:pb-12 lg:pb-12">
-        <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-28">
-          <div className="wrapper lg:grid lg:grid-cols-2 lg:gap-24">
-            <div>
-              <div>
-                <div>
-                  <a href="https://supabase.io/blog/2021/08/09/hackathon-winners" rel="nofollow" target="_blank" className="inline-flex space-x-4">
-                    <span className="rounded px-2.5 py-1 text-xs font-semibold text-white bg-green tracking-wide uppercase">
-                      Supabase Hackathon Winner
-                    </span>
-                  </a>
-                </div>
-                <div className="mt-6 sm:max-w-xl">
-                  <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                    Add new features to your website in minutes with no-code
-                  </h1>
-                  <p className="mt-6 text-xl text-gray-500">
-                    <span className="font-semibold">Feature.so</span> is a time saving, no-code tool that allows you to add new features to your site in minutes. Simply verify your domain and use our powerful in-browser visualizer to add your feature.
-                  </p>
-                </div>
-                <Link
-                  href="/signup"
-                >  
-                  <a
-                    className="mt-5 relative inline-flex items-center px-6 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-primary shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 "
-                  >
-                    <span>Get Started</span>
-                    <ArrowCircleRightIcon className="ml-4 h-5 w-5" aria-hidden="true" />
-                  </a>
-                </Link>
-              </div>
+      <div className="lg:relative bg-gradient-to-b from-white via-primary-3 to-primary">
+        <div className="wrapper relative z-10 pt-10 lg:pt-16 text-center">
+          <div className="px-4 max-w-4xl sm:px-8 mx-auto relative">
+            <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 md:text-5xl relative z-10">
+              <span className="block xl:inline">Add new features to your website</span>{' '}
+              <span className="block text-gray-600 xl:block">in minutes with no-code</span>
+            </h1>
+            <p className="mt-3 text-tertiary text-lg relative z-10">
+            Feature.so is a time saving, no-code tool that allows you to add new features to your site in minutes. Simply verify your domain and use our powerful in-browser visualizer to add your new feature.
+            </p>
+            <div className="mt-12">
+              <a
+                href={userLoaded ? '/dashboard' : '/signup'}
+                className="px-8 py-3 inline-block border border-transparent font-semibold rounded-md text-white bg-primary hover:bg-primary-2 transition-all hover:bg-primary-2 md:py-4 md:text-lg md:px-16"
+              >
+                {
+                  userLoaded ? 'View Dashboard' : 'Get Started for Free'
+                }
+              </a>
             </div>
-          </div>
-
-          <div className="sm:mx-auto sm:max-w-3xl sm:px-6">
-            <div className="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-              <div className="hidden sm:block">
-                <div className="absolute inset-y-0 left-1/2 w-screen bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full" />
-                <svg
-                  className="absolute top-8 right-1/2 -mr-3 lg:m-0 lg:left-0"
-                  width={404}
-                  height={392}
-                  fill="none"
-                  viewBox="0 0 404 392"
-                >
-                  <defs>
-                    <pattern
-                      id="837c3e70-6c3a-44e6-8854-cc48c737b659"
-                      x={0}
-                      y={0}
-                      width={20}
-                      height={20}
-                      patternUnits="userSpaceOnUse"
-                    >
-                      <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
-                    </pattern>
-                  </defs>
-                  <rect width={404} height={392} fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
-                </svg>
-              </div>
-              <div className="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
+              {
+                !userLoaded &&
+                <p className="text-xs text-tertiary mt-4 block">No credit card required. Signup and add your first feature for free.</p>
+              }    
+              <div className="rounded-lg relative mt-20">
                 <img
-                  className="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
+                  className="w-full shadow-xl rounded-tl-lg rounded-tr-lg"
                   src="/platform-screenshot.png"
                   alt="Feature.so Screenshot"
                 />
-              </div>
             </div>
           </div>
         </div>
       </div>
+    
       <Testimonials/>
+
     </div>
   )
 }
